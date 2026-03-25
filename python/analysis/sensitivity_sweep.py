@@ -200,7 +200,7 @@ def method1_extract(tau_bi, Jss_bi, D_known, S_known,
             den = ell2*D1 + K*ell1*D2
             return (num/den - tau_bi)**2
 
-    res = minimize_scalar(obj, bounds=(np.log(1e-20), np.log(1e0)),
+    res = minimize_scalar(obj, bounds=(np.log(1e-20), np.log(1e2)),
                           method="bounded")
     D_ext = np.exp(res.x)
     S_ext = Phi_unknown / D_ext
@@ -221,6 +221,8 @@ def main():
     tau_2_num, Jss_2_num = extract_timelag_and_Jss(t_s, f_s)
     D2_cal = ELL**2 / (6 * tau_2_num)
     S2_cal = (Jss_2_num * ELL / np.sqrt(P_UP)) / D2_cal
+    print(f"  τ_num = {tau_2_num:.3e} (analytical: {tau_2_ana:.3e}, "
+          f"err: {abs(tau_2_num - tau_2_ana)/tau_2_ana*100:.2f}%)")
     print(f"  D2 = {D2_cal:.3e} (true: {D2_REF:.3e}, "
           f"err: {abs(D2_cal - D2_REF)/D2_REF*100:.1f}%)")
     print(f"  S2 = {S2_cal:.3e} (true: {S2_REF:.3e}, "
@@ -228,8 +230,8 @@ def main():
     print()
 
     # --- 2D grid ---
-    kappa_vals = np.logspace(-1, 3, 7)
-    rho_vals = np.logspace(-1, 1, 7)
+    kappa_vals = np.logspace(-6, 6, 13)
+    rho_vals = np.logspace(-4, 4, 9)
 
     n_kap = len(kappa_vals)
     n_rho = len(rho_vals)
@@ -363,6 +365,13 @@ def main():
         print(f"Saved: {path}")
         plt.close()
 
+    print("\n--- Single-layer substrate calibration summary ---")
+    print(f"  τ_num = {tau_2_num:.3e} (analytical: {tau_2_ana:.3e}, "
+          f"err: {abs(tau_2_num - tau_2_ana)/tau_2_ana*100:.2f}%)")
+    print(f"  D2 = {D2_cal:.3e} (true: {D2_REF:.3e}, "
+          f"err: {abs(D2_cal - D2_REF)/D2_REF*100:.1f}%)")
+    print(f"  S2 = {S2_cal:.3e} (true: {S2_REF:.3e}, "
+          f"err: {abs(S2_cal - S2_REF)/S2_REF*100:.1f}%)")
     print("\nDone.")
 
 
