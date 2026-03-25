@@ -217,6 +217,7 @@ def main():
     # --- Single-layer substrate calibration (run once) ---
     tau_2_ana = ELL**2 / (6 * D2_REF)
     print("Running single-layer substrate calibration...")
+    print(f"  D = {D2_REF:.3e} m²/s, S = {S2_REF:.3e} H/m³/Pa^0.5")
     t_s, f_s = run_single_layer(D2_REF, S2_REF, ELL, 15 * tau_2_ana)
     tau_2_num, Jss_2_num = extract_timelag_and_Jss(t_s, f_s)
     D2_cal = ELL**2 / (6 * tau_2_num)
@@ -365,7 +366,26 @@ def main():
         print(f"Saved: {path}")
         plt.close()
 
+    # Save single-layer calibration results to CSV
+    import csv
+    cal_path = "python/analysis/single_layer_calibration.csv"
+    with open(cal_path, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["parameter", "input_value", "extracted_value", "error_pct"])
+        w.writerow(["D (m^2/s)", f"{D2_REF:.6e}", f"{D2_cal:.6e}",
+                     f"{abs(D2_cal - D2_REF)/D2_REF*100:.4f}"])
+        w.writerow(["S (H/m^3/Pa^0.5)", f"{S2_REF:.6e}", f"{S2_cal:.6e}",
+                     f"{abs(S2_cal - S2_REF)/S2_REF*100:.4f}"])
+        w.writerow(["tau (s)", f"{tau_2_ana:.6e}", f"{tau_2_num:.6e}",
+                     f"{abs(tau_2_num - tau_2_ana)/tau_2_ana*100:.4f}"])
+        w.writerow(["Jss (H/m^2/s)", "", f"{Jss_2_num:.6e}", ""])
+        w.writerow(["thickness (m)", f"{ELL:.6e}", "", ""])
+        w.writerow(["P_up (Pa)", f"{P_UP:.6e}", "", ""])
+        w.writerow(["T (K)", f"{T_SIM:.1f}", "", ""])
+    print(f"Saved: {cal_path}")
+
     print("\n--- Single-layer substrate calibration summary ---")
+    print(f"  Input:  D = {D2_REF:.3e} m²/s,  S = {S2_REF:.3e} H/m³/Pa^0.5")
     print(f"  τ_num = {tau_2_num:.3e} (analytical: {tau_2_ana:.3e}, "
           f"err: {abs(tau_2_num - tau_2_ana)/tau_2_ana*100:.2f}%)")
     print(f"  D2 = {D2_cal:.3e} (true: {D2_REF:.3e}, "
