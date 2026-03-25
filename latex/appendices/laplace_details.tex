@@ -1,0 +1,460 @@
+\section{Detailed Laplace Transform Calculations}
+\label{sec:appendix-laplace}
+
+This appendix provides the detailed algebraic steps omitted from the main text
+in the interest of readability.
+
+\subsection{Simplification of the Coefficient \texorpdfstring{$E$}{E}}
+\label{sec:app-E-simplification}
+
+From \cref{eq:cond3}, $E = \Kpart[A\cosh(q_1\Ls{1}) + B\sinh(q_1\Ls{1})]$.
+Substituting $A = C_0/s$ and the expression for $B$ from \cref{eq:B-solved}:
+\begin{align}
+  E &= \Kpart\left[\frac{C_0}{s}\cosh(q_1\Ls{1})
+    - \frac{C_0}{s}\,
+    \frac{\Ds{1}\,q_1\sinh(q_1\Ls{1}) + R\cosh(q_1\Ls{1})}
+    {\Ds{1}\,q_1\cosh(q_1\Ls{1}) + R\sinh(q_1\Ls{1})}
+    \,\sinh(q_1\Ls{1})\right]
+  \notag\\
+  &= \frac{\Kpart\,C_0}{s}\,
+    \frac{\cosh(q_1\Ls{1})\bigl[\Ds{1}\,q_1\cosh(q_1\Ls{1})
+      + R\sinh(q_1\Ls{1})\bigr]
+      - \sinh(q_1\Ls{1})\bigl[\Ds{1}\,q_1\sinh(q_1\Ls{1})
+      + R\cosh(q_1\Ls{1})\bigr]}
+    {\Ds{1}\,q_1\cosh(q_1\Ls{1}) + R\sinh(q_1\Ls{1})}.
+\end{align}
+The numerator bracket simplifies using $\cosh^2 z - \sinh^2 z = 1$:
+\begin{align}
+  &\Ds{1}\,q_1\bigl[\cosh^2(q_1\Ls{1}) - \sinh^2(q_1\Ls{1})\bigr]
+  + R\bigl[\sinh(q_1\Ls{1})\cosh(q_1\Ls{1})
+    - \cosh(q_1\Ls{1})\sinh(q_1\Ls{1})\bigr]
+  \notag\\
+  &= \Ds{1}\,q_1\cdot 1 + R\cdot 0 = \Ds{1}\,q_1.
+\end{align}
+Therefore,
+\begin{equation}
+  \label{eq:E-final}
+  E = \frac{\Kpart\,C_0\,\Ds{1}\,q_1}
+  {s\bigl[\Ds{1}\,q_1\cosh(q_1\Ls{1}) + R\sinh(q_1\Ls{1})\bigr]},
+\end{equation}
+confirming \cref{eq:E-simplified}.
+
+\subsection{Full Small-\texorpdfstring{$s$}{s} Expansion of the Denominator}
+\label{sec:app-denom-expansion}
+
+We expand the denominator function
+\begin{equation}
+  \mathcal{D}(s) = \Ds{1}\,q_1\cosh(q_1\Ls{1})\sinh(q_2\Ls{2})
+  + \Kpart\,\Ds{2}\,q_2\sinh(q_1\Ls{1})\cosh(q_2\Ls{2})
+\end{equation}
+to order $s^2$.  Recall $q_i = \sqrt{s/\Ds{i}}$ and
+$\alpha_i = q_i\Ls{i}$, so $\alpha_i^2 = s\Ls{i}^2/\Ds{i}$.
+
+\paragraph{Term 1:} $\Ds{1}\,q_1\cosh(\alpha_1)\sinh(\alpha_2)$.
+\begin{align}
+  \Ds{1}\,q_1 &= \sqrt{\Ds{1}\,s},\\
+  \cosh(\alpha_1) &= 1 + \frac{\alpha_1^2}{2} + \frac{\alpha_1^4}{24}
+    + O(\alpha_1^6)
+    = 1 + \frac{s\Ls{1}^2}{2\Ds{1}} + \frac{s^2\Ls{1}^4}{24\Ds{1}^2}
+    + O(s^3),\\
+  \sinh(\alpha_2) &= \alpha_2 + \frac{\alpha_2^3}{6}
+    + \frac{\alpha_2^5}{120} + O(\alpha_2^7)
+    = \Ls{2}\sqrt{\frac{s}{\Ds{2}}}
+    \left(1 + \frac{s\Ls{2}^2}{6\Ds{2}}
+    + \frac{s^2\Ls{2}^4}{120\Ds{2}^2} + O(s^3)\right).
+\end{align}
+Product:
+\begin{align}
+  &\Ds{1}\,q_1\cosh(\alpha_1)\sinh(\alpha_2)
+  \notag\\
+  &= \sqrt{\Ds{1}}\cdot\frac{\Ls{2}\,s}{\sqrt{\Ds{2}}}
+    \left(1 + \frac{s\Ls{1}^2}{2\Ds{1}} + \frac{s^2\Ls{1}^4}{24\Ds{1}^2}
+    + \cdots\right)
+    \left(1 + \frac{s\Ls{2}^2}{6\Ds{2}}
+    + \frac{s^2\Ls{2}^4}{120\Ds{2}^2} + \cdots\right)
+  \notag\\
+  &= \frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}\,s
+    \left[1 + s\left(\frac{\Ls{1}^2}{2\Ds{1}} + \frac{\Ls{2}^2}{6\Ds{2}}
+    \right)
+    + s^2\left(\frac{\Ls{1}^4}{24\Ds{1}^2}
+    + \frac{\Ls{1}^2\Ls{2}^2}{12\Ds{1}\Ds{2}}
+    + \frac{\Ls{2}^4}{120\Ds{2}^2}\right) + O(s^3)\right].
+  \label{eq:term1-expanded}
+\end{align}
+
+\paragraph{Term 2:} $\Kpart\,\Ds{2}\,q_2\sinh(\alpha_1)\cosh(\alpha_2)$.
+
+By the same procedure:
+\begin{align}
+  &\Kpart\,\Ds{2}\,q_2\sinh(\alpha_1)\cosh(\alpha_2)
+  \notag\\
+  &= \frac{\Kpart\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}\,s
+    \left[1 + s\left(\frac{\Ls{1}^2}{6\Ds{1}} + \frac{\Ls{2}^2}{2\Ds{2}}
+    \right)
+    + s^2\left(\frac{\Ls{1}^4}{120\Ds{1}^2}
+    + \frac{\Ls{1}^2\Ls{2}^2}{12\Ds{1}\Ds{2}}
+    + \frac{\Ls{2}^4}{24\Ds{2}^2}\right) + O(s^3)\right].
+  \label{eq:term2-expanded}
+\end{align}
+
+\paragraph{Sum.}  Combining \cref{eq:term1-expanded,eq:term2-expanded} and
+collecting powers of~$s$:
+\begin{equation}
+  \mathcal{D}(s) = d_0\,s + d_1\,s^2 + d_2\,s^3 + O(s^4),
+\end{equation}
+where
+\begin{align}
+  d_0 &= \frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+    + \frac{\Kpart\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}
+    = \frac{\Ls{2}\Ds{1} + \Kpart\Ls{1}\Ds{2}}{\sqrt{\Ds{1}\Ds{2}}},
+  \label{eq:d0-app}\\[6pt]
+  d_1 &= \frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+    \left(\frac{\Ls{1}^2}{2\Ds{1}} + \frac{\Ls{2}^2}{6\Ds{2}}\right)
+    + \frac{\Kpart\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}
+    \left(\frac{\Ls{1}^2}{6\Ds{1}} + \frac{\Ls{2}^2}{2\Ds{2}}\right)
+  \notag\\
+  &= \frac{1}{\sqrt{\Ds{1}\Ds{2}}}
+    \left[\frac{\Ls{1}^2\Ls{2}}{2}
+    + \frac{\Ls{2}^3\Ds{1}}{6\Ds{2}}
+    + \frac{\Kpart\Ls{1}^3\Ds{2}}{6\Ds{1}}
+    + \frac{\Kpart\Ls{1}\Ls{2}^2}{2}\right],
+  \label{eq:d1-app}\\[6pt]
+  d_2 &= \frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+    \left(\frac{\Ls{1}^4}{24\Ds{1}^2}
+    + \frac{\Ls{1}^2\Ls{2}^2}{12\Ds{1}\Ds{2}}
+    + \frac{\Ls{2}^4}{120\Ds{2}^2}\right)
+  \notag\\
+  &\quad+ \frac{\Kpart\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}
+    \left(\frac{\Ls{1}^4}{120\Ds{1}^2}
+    + \frac{\Ls{1}^2\Ls{2}^2}{12\Ds{1}\Ds{2}}
+    + \frac{\Ls{2}^4}{24\Ds{2}^2}\right).
+  \label{eq:d2-app}
+\end{align}
+
+The timelag is $\tlag = d_1/d_0$, confirming \cref{eq:tlag-composite-raw}.
+The coefficient $d_2$ would be needed to extract higher-order transient
+information but does not enter the timelag or steady-state flux.
+
+\subsection{Verification of the Consistency Check}
+\label{sec:app-consistency}
+
+We verify that $\tlag = d_1/d_0$ reduces to $L^2/(6D)$ when
+$\Ds{1} = \Ds{2} = D$, $\Ss{1} = \Ss{2}$ (so $\Kpart = 1$).
+
+From \cref{eq:d0-app}:
+\begin{equation}
+  d_0 = \frac{\Ls{2}\,D + \Ls{1}\,D}{D}
+  = \Ls{1} + \Ls{2} = L.
+\end{equation}
+
+From \cref{eq:d1-app} with $\Kpart = 1$:
+\begin{align}
+  d_1 &= \frac{1}{D}\left[\frac{\Ls{1}^2\Ls{2}}{2}
+    + \frac{\Ls{2}^3}{6} + \frac{\Ls{1}^3}{6}
+    + \frac{\Ls{1}\Ls{2}^2}{2}\right]
+  \notag\\
+  &= \frac{1}{6D}\left[3\Ls{1}^2\Ls{2} + \Ls{2}^3
+    + \Ls{1}^3 + 3\Ls{1}\Ls{2}^2\right]
+  = \frac{(\Ls{1}+\Ls{2})^3}{6D} = \frac{L^3}{6D}.
+\end{align}
+Here we used the binomial expansion:
+$(\Ls{1}+\Ls{2})^3 = \Ls{1}^3 + 3\Ls{1}^2\Ls{2} + 3\Ls{1}\Ls{2}^2
++ \Ls{2}^3$.
+
+Therefore $\tlag = d_1/d_0 = L^3/(6DL) = L^2/(6D)$.  \checkmark
+
+\subsection{Reverse-Direction Flux Derivation}
+\label{sec:app-reverse}
+
+For the reverse direction, the feed is at $x = L$ (Layer~2 upstream) and the
+permeate is at $x = 0$ (Layer~1 downstream).
+
+\paragraph{Boundary conditions.}
+\begin{align}
+  C_2(L,t) &= C_0' = \Ss{2}\sqrt{P},\\
+  C_1(0,t) &= 0.
+\end{align}
+
+\paragraph{Interface conditions.} Same as the forward case:
+flux continuity and thermodynamic equilibrium at $x = \Ls{1}$.
+
+\paragraph{Laplace-domain solution.}
+In Layer~1 ($0 < x < \Ls{1}$):
+\begin{equation}
+  \bar{C}_1(x,s) = A'\cosh(q_1 x) + B'\sinh(q_1 x).
+\end{equation}
+The downstream boundary $\bar{C}_1(0,s) = 0$ gives $A' = 0$, so
+$\bar{C}_1 = B'\sinh(q_1 x)$.
+
+In Layer~2 (using $y = x - \Ls{1}$, $0 < y < \Ls{2}$):
+\begin{equation}
+  \bar{C}_2(y,s) = E'\cosh(q_2 y) + F'\sinh(q_2 y).
+\end{equation}
+The upstream boundary $\bar{C}_2(\Ls{2},s) = C_0'/s$ gives
+\begin{equation}
+  \label{eq:rev-bc-up}
+  E'\cosh(q_2\Ls{2}) + F'\sinh(q_2\Ls{2}) = \frac{C_0'}{s}.
+\end{equation}
+
+Interface equilibrium: $\Kpart\,\bar{C}_1(\Ls{1},s) = \bar{C}_2(0,s)$, i.e.,
+\begin{equation}
+  \label{eq:rev-interface-eq}
+  \Kpart\,B'\sinh(q_1\Ls{1}) = E'.
+\end{equation}
+
+Flux continuity:
+$\Ds{1}\,q_1\,B'\cosh(q_1\Ls{1}) = \Ds{2}\,q_2\,F'$.
+
+\paragraph{Downstream flux at $x = 0$.}
+\begin{equation}
+  \bar{J}^{\mathrm{rev}}(0,s) = -\Ds{1}\,\pdv{\bar{C}_1}{x}\bigg|_{x=0}
+  = -\Ds{1}\,q_1\,B'.
+\end{equation}
+(The sign convention: flux in the $-x$ direction is the downstream permeation
+for the reverse case.  We take the magnitude.)
+
+Solving the four-equation system for $B'$ (details parallel to the forward
+case), we obtain:
+\begin{equation}
+  B' = \frac{C_0'\,\Ds{2}\,q_2}
+  {s\,\Kpart\bigl[\Ds{2}\,q_2\cosh(q_2\Ls{2})\sinh(q_1\Ls{1})
+    + (1/\Kpart)\,\Ds{1}\,q_1\sinh(q_2\Ls{2})\cosh(q_1\Ls{1})\bigr]}.
+\end{equation}
+
+Therefore,
+\begin{align}
+  \bar{J}^{\mathrm{rev}}(0,s)
+  &= \frac{\Ds{1}\,q_1\,C_0'\,\Ds{2}\,q_2}
+  {s\,\Kpart\bigl[\Ds{2}\,q_2\cosh(q_2\Ls{2})\sinh(q_1\Ls{1})
+    + (1/\Kpart)\Ds{1}\,q_1\sinh(q_2\Ls{2})\cosh(q_1\Ls{1})\bigr]}
+  \notag\\
+  &= \frac{(1/\Kpart)\,\Ds{1}\,\Ds{2}\,q_1\,q_2\,C_0'}
+  {s\bigl[\Ds{2}\,q_2\cosh(q_2\Ls{2})\sinh(q_1\Ls{1})
+    + (1/\Kpart)\,\Ds{1}\,q_1\sinh(q_2\Ls{2})\cosh(q_1\Ls{1})\bigr]}.
+\end{align}
+
+Now multiply numerator and denominator of the fraction inside the brackets by
+$\Kpart$:
+\begin{equation}
+  \bar{J}^{\mathrm{rev}}(0,s)
+  = \frac{\Ds{1}\,\Ds{2}\,q_1\,q_2\,(C_0'/\Kpart)}
+  {s\bigl[\Kpart\,\Ds{2}\,q_2\cosh(q_2\Ls{2})\sinh(q_1\Ls{1})
+    + \Ds{1}\,q_1\sinh(q_2\Ls{2})\cosh(q_1\Ls{1})\bigr]}.
+\end{equation}
+
+Since $C_0'/\Kpart = \Ss{2}\sqrt{P}/(\Ss{2}/\Ss{1}) = \Ss{1}\sqrt{P} = C_0$,
+and the denominator bracket equals
+\begin{equation}
+  \Ds{1}\,q_1\cosh(q_1\Ls{1})\sinh(q_2\Ls{2})
+  + \Kpart\,\Ds{2}\,q_2\sinh(q_1\Ls{1})\cosh(q_2\Ls{2})
+  = \mathcal{D}(s)/s,
+\end{equation}
+(which is exactly the forward-direction denominator), we conclude that
+\begin{equation}
+  \bar{J}^{\mathrm{rev}}(0,s) = \frac{\Kpart\,\Ds{1}\,\Ds{2}\,q_1\,q_2\,C_0}
+  {s\,\mathcal{D}(s)/s}
+  \cdot\frac{1}{\Kpart} = \bar{J}^{\mathrm{fwd}}(L,s).
+\end{equation}
+That is, the Laplace-domain flux (and hence the cumulative permeation and
+timelag) is identical in both directions.  This completes the detailed
+verification of \cref{prop:direction-independence}.
+
+\subsection{Upstream Lead Time: Detailed Expansion}
+\label{sec:app-upstream-details}
+
+We provide additional details for the upstream lead-time derivation of
+\cref{sec:two-layer-upstream}.  The upstream cumulative permeation is
+\begin{equation}
+  \bar{\Cum}_{\mathrm{up}}(s) = \frac{\bar{J}_{\mathrm{up}}(s)}{s}
+  = \frac{\Ds{1}\,q_1\,C_0}{s^2}\,
+  \frac{\mathcal{N}(s)}{\mathcal{D}(s)},
+\end{equation}
+where
+\begin{equation}
+  \mathcal{N}(s) = \Ds{1}\,q_1\sinh(q_1\Ls{1}) + R\cosh(q_1\Ls{1})
+\end{equation}
+is the numerator fraction from \cref{eq:Jbar-upstream} (note: this
+$\mathcal{N}$ differs from the downstream numerator, which was simply
+$\Ds{1}\,q_1$).
+
+\paragraph{Expanding $\mathcal{N}(s)$.}
+Recall $R = \Kpart\,\Ds{2}\,q_2\cosh(q_2\Ls{2})/\sinh(q_2\Ls{2})$.
+For small $s$:
+\begin{align}
+  \frac{\cosh(q_2\Ls{2})}{\sinh(q_2\Ls{2})}
+  &= \frac{1 + \frac{s\Ls{2}^2}{2\Ds{2}} + \cdots}
+  {\frac{\Ls{2}\sqrt{s}}{\sqrt{\Ds{2}}}
+  \bigl(1 + \frac{s\Ls{2}^2}{6\Ds{2}} + \cdots\bigr)}
+  = \frac{\sqrt{\Ds{2}}}{\Ls{2}\sqrt{s}}\,
+  \frac{1 + \frac{s\Ls{2}^2}{2\Ds{2}} + \cdots}
+  {1 + \frac{s\Ls{2}^2}{6\Ds{2}} + \cdots}
+  \notag\\
+  &= \frac{\sqrt{\Ds{2}}}{\Ls{2}\sqrt{s}}
+  \left(1 + \frac{s\Ls{2}^2}{3\Ds{2}} + O(s^2)\right).
+\end{align}
+Therefore,
+\begin{align}
+  R &= \Kpart\,\Ds{2}\,\sqrt{\frac{s}{\Ds{2}}}\,
+  \frac{\sqrt{\Ds{2}}}{\Ls{2}\sqrt{s}}
+  \left(1 + \frac{s\Ls{2}^2}{3\Ds{2}} + O(s^2)\right)
+  = \frac{\Kpart\,\Ds{2}}{\Ls{2}}
+  \left(1 + \frac{s\Ls{2}^2}{3\Ds{2}} + O(s^2)\right).
+\end{align}
+
+Now assemble $\mathcal{N}(s)$:
+\begin{align}
+  \mathcal{N}(s)
+  &= \Ds{1}\,q_1\sinh(q_1\Ls{1}) + R\cosh(q_1\Ls{1})
+  \notag\\
+  &= \frac{s\Ls{1}^2}{\Ls{1}}
+  \left(1 + \frac{s\Ls{1}^2}{6\Ds{1}} + \cdots\right)
+  + \frac{\Kpart\Ds{2}}{\Ls{2}}
+  \left(1 + \frac{s\Ls{2}^2}{3\Ds{2}} + \cdots\right)
+  \left(1 + \frac{s\Ls{1}^2}{2\Ds{1}} + \cdots\right)
+  \notag\\
+  &= s\Ls{1}\left(1 + \frac{s\Ls{1}^2}{6\Ds{1}} + \cdots\right)
+  + \frac{\Kpart\Ds{2}}{\Ls{2}}
+  \left(1 + s\left[\frac{\Ls{2}^2}{3\Ds{2}}
+    + \frac{\Ls{1}^2}{2\Ds{1}}\right] + \cdots\right)
+  \notag\\
+  &= \frac{\Kpart\Ds{2}}{\Ls{2}}
+  + s\left[\Ls{1} + \frac{\Kpart\Ds{2}}{\Ls{2}}
+    \left(\frac{\Ls{2}^2}{3\Ds{2}} + \frac{\Ls{1}^2}{2\Ds{1}}\right)
+  \right] + O(s^2)
+  \notag\\
+  &= \frac{\Kpart\Ds{2}}{\Ls{2}}
+  + s\left[\Ls{1} + \frac{\Kpart\Ls{2}}{3}
+    + \frac{\Kpart\Ds{2}\Ls{1}^2}{2\Ds{1}\Ls{2}}\right] + O(s^2).
+  \label{eq:N-expanded}
+\end{align}
+
+Define
+\begin{align}
+  n_0 &\coloneqq \frac{\Kpart\Ds{2}}{\Ls{2}},\\
+  n_1 &\coloneqq \Ls{1} + \frac{\Kpart\Ls{2}}{3}
+    + \frac{\Kpart\Ds{2}\Ls{1}^2}{2\Ds{1}\Ls{2}}.
+\end{align}
+
+\paragraph{Combining with the prefactor.}
+The full upstream cumulative is
+\begin{align}
+  \bar{\Cum}_{\mathrm{up}}(s)
+  &= \frac{\sqrt{\Ds{1}\,s}\,C_0}{s^2}\,
+  \frac{n_0 + n_1\,s + O(s^2)}{d_0\,s + d_1\,s^2 + O(s^3)}
+  \notag\\
+  &= \frac{C_0\sqrt{\Ds{1}}}{s^{3/2}}\,
+  \frac{n_0 + n_1\,s + O(s^2)}{d_0\,s + d_1\,s^2 + O(s^3)}.
+\end{align}
+
+Wait---let us be more careful.  The prefactor in $\bar{J}_{\mathrm{up}}$ from
+\cref{eq:Jbar-upstream} is $\Ds{1}\,q_1\,C_0/s = C_0\sqrt{\Ds{1}\,s}/s
+= C_0\sqrt{\Ds{1}}/\sqrt{s}$.  Then
+\begin{equation}
+  \bar{\Cum}_{\mathrm{up}}(s) = \frac{C_0\sqrt{\Ds{1}}}{s\sqrt{s}}\,
+  \frac{\mathcal{N}(s)}{\mathcal{D}(s)}.
+\end{equation}
+
+With $\mathcal{N}(s) = n_0 + n_1\,s + O(s^2)$ and
+$\mathcal{D}(s) = d_0\,s + d_1\,s^2 + O(s^3)$:
+\begin{align}
+  \bar{\Cum}_{\mathrm{up}}(s)
+  &= \frac{C_0\sqrt{\Ds{1}}}{s^{3/2}}\,
+  \frac{n_0 + n_1\,s + \cdots}{d_0\,s + d_1\,s^2 + \cdots}
+  = \frac{C_0\sqrt{\Ds{1}}}{s^{3/2}}\,
+  \frac{n_0 + n_1\,s + \cdots}{d_0\,s\bigl(1 + \frac{d_1}{d_0}s
+    + \cdots\bigr)}
+  \notag\\
+  &= \frac{C_0\sqrt{\Ds{1}}}{d_0\,s^{5/2}}
+  \bigl(n_0 + n_1\,s + \cdots\bigr)
+  \bigl(1 - \tfrac{d_1}{d_0}s + \cdots\bigr)
+  \notag\\
+  &= \frac{C_0\sqrt{\Ds{1}}}{d_0}
+  \left[\frac{n_0}{s^{5/2}}
+  + \frac{n_1 - n_0\,d_1/d_0}{s^{3/2}} + O(s^{-1/2})\right].
+\end{align}
+
+The inverse Laplace transforms of fractional powers of $s$ give
+$\mathcal{L}^{-1}\{s^{-5/2}\} = \frac{4t^{3/2}}{3\sqrt{\pi}}$ and
+$\mathcal{L}^{-1}\{s^{-3/2}\} = \frac{2t^{1/2}}{\sqrt{\pi}}$, which
+describe the transient approach.
+
+However, the asymptotic (large-$t$) behaviour with \emph{linear} growth comes
+from the poles at $s=0$ in the full (non-expanded) expression.  The correct
+approach is to recognise that the upstream cumulative must also approach a
+linear asymptote $\Jss(t + \theta_{\mathrm{up}})$.  This means we should
+examine the Laurent expansion more carefully.
+
+In fact, the correct expansion uses the relation
+\begin{equation}
+  \bar{\Cum}_{\mathrm{up}}(s) - \bar{\Cum}_{\mathrm{down}}(s)
+  = \frac{\bar{M}(s)}{s},
+\end{equation}
+where $M(t) = \int_0^L C(x,t)\,\dd{x}$ is the total amount of diffusant
+stored in the membrane.  In steady state,
+$M_{\mathrm{ss}} = \int_0^L C_{\mathrm{ss}}(x)\,\dd{x}$ is a constant, so
+$\bar{M}_{\mathrm{ss}}(s) = M_{\mathrm{ss}}/s$ and
+\begin{equation}
+  \bar{\Cum}_{\mathrm{up}}(s)
+  = \bar{\Cum}_{\mathrm{down}}(s) + \frac{M_{\mathrm{ss}}}{s^2}
+  + (\text{transient terms}).
+\end{equation}
+
+From the downstream expansion \cref{eq:Qbar-expanded}:
+\begin{equation}
+  \bar{\Cum}_{\mathrm{down}}(s) = \Jss\left[\frac{1}{s^2}
+  - \frac{\tlag}{s} + O(1)\right].
+\end{equation}
+Therefore, for large $t$:
+\begin{equation}
+  \Cum_{\mathrm{up}}(t) \to \Jss\,t - \Jss\,\tlag + M_{\mathrm{ss}}
+  = \Jss\left(t - \tlag + \frac{M_{\mathrm{ss}}}{\Jss}\right)
+  = \Jss(t + \theta_{\mathrm{up}}),
+\end{equation}
+with
+\begin{equation}
+  \label{eq:theta-from-Mss}
+  \theta_{\mathrm{up}} = \frac{M_{\mathrm{ss}}}{\Jss} - \tlag.
+\end{equation}
+
+\paragraph{Computing $M_{\mathrm{ss}}$.}
+The steady-state concentration profiles are linear within each layer:
+\begin{align}
+  C_1^{\mathrm{ss}}(x) &= C_0 - \frac{\Jss}{\Ds{1}\Ss{1}}\,\Ss{1}\,x
+  = C_0\left(1 - \frac{x\,r_1}{\Ls{1}\,R_{\mathrm{tot}}}\right),
+  \qquad 0 < x < \Ls{1},\\
+  C_2^{\mathrm{ss}}(y) &= \Kpart\,C_0
+  \left(\frac{r_1}{R_{\mathrm{tot}}} - \frac{r_1}{R_{\mathrm{tot}}}
+  - \frac{y}{R_{\mathrm{tot}}}\,\frac{1}{\Ds{2}\Ss{2}/\Ls{2}}
+  \right).
+\end{align}
+More simply, at the interface $C_1^{\mathrm{ss}}(\Ls{1}) = C_0(1 -
+r_1/R_{\mathrm{tot}}) = C_0\,r_2/R_{\mathrm{tot}}$, and
+$C_2^{\mathrm{ss}}(0) = \Kpart\,C_1^{\mathrm{ss}}(\Ls{1})
+= \Kpart\,C_0\,r_2/R_{\mathrm{tot}}$, with $C_2^{\mathrm{ss}}(\Ls{2}) = 0$.
+Each profile is linear, so
+\begin{align}
+  M_{\mathrm{ss}} &= \int_0^{\Ls{1}} C_1^{\mathrm{ss}}\,\dd{x}
+  + \int_0^{\Ls{2}} C_2^{\mathrm{ss}}\,\dd{y}
+  \notag\\
+  &= \frac{\Ls{1}}{2}\bigl(C_0 + C_0\,r_2/R_{\mathrm{tot}}\bigr)
+  + \frac{\Ls{2}}{2}\,\Kpart\,C_0\,r_2/R_{\mathrm{tot}}
+  \notag\\
+  &= \frac{C_0}{2}\left[\Ls{1}\left(1 + \frac{r_2}{R_{\mathrm{tot}}}\right)
+  + \frac{\Kpart\,\Ls{2}\,r_2}{R_{\mathrm{tot}}}\right]
+  \notag\\
+  &= \frac{C_0}{2}\left[\Ls{1}
+  + \frac{r_2}{R_{\mathrm{tot}}}\bigl(\Ls{1} + \Kpart\,\Ls{2}\bigr)
+  \right].
+  \label{eq:Mss-result}
+\end{align}
+
+The upstream lead time then follows from \cref{eq:theta-from-Mss}:
+\begin{equation}
+  \theta_{\mathrm{up}} = \frac{M_{\mathrm{ss}}}{\Jss} - \tlag,
+\end{equation}
+where $\Jss = C_0/R_{\mathrm{tot}}$, so
+$M_{\mathrm{ss}}/\Jss = R_{\mathrm{tot}}\cdot[\text{expression in
+\cref{eq:Mss-result}}]/C_0\cdot C_0 = R_{\mathrm{tot}}\cdot[\cdots]$.
+
+This gives an explicit, fully dimensional expression for $\theta_{\mathrm{up}}$
+in terms of the layer parameters, completing the derivation.

@@ -1,0 +1,48 @@
+% ---- Packages ----
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{physics}          % provides \pdv, \dv, etc.
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[backend=biber, style=numeric-comp, sorting=nyt]{biblatex}
+\addbibresource{references.bib}
+
+% ---- Custom commands ----
+% Diffusivity subscript shorthand: \Ds{i} -> D_i
+\newcommand{\Ds}[1]{D_{#1}}
+% Solubility subscript shorthand: \Ss{i} -> S_i
+\newcommand{\Ss}[1]{S_{#1}}
+% Layer thickness shorthand: \Ls{i} -> \ell_i
+\newcommand{\Ls}[1]{\ell_{#1}}
+% Timelag symbols
+\newcommand{\tlag}{\tau_{\mathrm{lag}}}
+\newcommand{\tlagfwd}{\tau_{\mathrm{fwd}}}
+\newcommand{\tlagrev}{\tau_{\mathrm{rev}}}
+% Partition coefficient
+\newcommand{\Kpart}{\mathrm{K}}
+% Steady-state flux
+\newcommand{\Jss}{J_{\mathrm{ss}}}
+% Concentration
+\newcommand{\Conc}{C}
+% Cumulative permeation
+\newcommand{\Cum}{Q}
+% Dimensionless diagnostic ratios
+\newcommand{\kres}{\kappa}          % resistance ratio R_1/R_2
+\newcommand{\rspd}{\rho}            % diffusion speed ratio
+
+% ---- Theorem environments ----
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}

@@ -1,0 +1,211 @@
+\section{Single-Layer Timelag: Classical Derivation}
+\label{sec:single-layer}
+
+We begin with a rigorous derivation of the classical timelag for a homogeneous
+membrane, both to establish the Laplace-transform methodology that will be
+extended to the bilayer case and to derive the upstream lead time that will
+prove useful for parameter extraction.
+
+\subsection{Problem Setup}
+\label{sec:single-setup}
+
+Consider a homogeneous membrane of thickness~$L$ with constant
+diffusivity~$D$.  The concentration $\Conc(x,t)$ satisfies Fick's second law:
+\begin{equation}
+  \label{eq:fick-single}
+  \pdv{\Conc}{t} = D\,\pdv[2]{\Conc}{x}, \qquad 0 < x < L,\; t > 0.
+\end{equation}
+The initial and boundary conditions for a gas-driven permeation experiment are:
+\begin{align}
+  \label{eq:single-ic}
+  \Conc(x,0) &= 0, \qquad 0 \le x \le L, \\
+  \label{eq:single-bc-up}
+  \Conc(0,t) &= C_0, \qquad t > 0, \\
+  \label{eq:single-bc-down}
+  \Conc(L,t) &= 0, \qquad t > 0,
+\end{align}
+where $C_0 = S\sqrt{P}$ for a metal obeying Sieverts' law at the upstream face
+(or $C_0 = S\,p$ for Henry's law), and the downstream face is maintained at
+effectively zero concentration by continuous evacuation or sweep gas.
+
+\subsection{Laplace Transform Solution}
+\label{sec:single-laplace}
+
+Define the Laplace transform
+$\bar{\Conc}(x,s) = \mathcal{L}\{\Conc(x,t)\} = \int_0^\infty \Conc(x,t)\,
+e^{-st}\,\dd{t}$.  Transforming \cref{eq:fick-single} with the zero initial
+condition \cref{eq:single-ic} gives the ODE
+\begin{equation}
+  \label{eq:single-ode-laplace}
+  s\,\bar{\Conc} = D\,\dv[2]{\bar{\Conc}}{x}.
+\end{equation}
+The general solution is
+\begin{equation}
+  \label{eq:single-general-soln}
+  \bar{\Conc}(x,s) = A\cosh(qx) + B\sinh(qx),
+  \qquad q \coloneqq \sqrt{\frac{s}{D}}.
+\end{equation}
+
+Applying the transformed boundary conditions:
+\begin{itemize}
+  \item $\bar{\Conc}(0,s) = C_0/s$ gives $A = C_0/s$.
+  \item $\bar{\Conc}(L,s) = 0$ gives
+    $\dfrac{C_0}{s}\cosh(qL) + B\sinh(qL) = 0$, hence
+    $B = -\dfrac{C_0}{s}\,\dfrac{\cosh(qL)}{\sinh(qL)}$.
+\end{itemize}
+Substituting back:
+\begin{equation}
+  \label{eq:single-laplace-soln}
+  \bar{\Conc}(x,s) = \frac{C_0}{s}\left[\cosh(qx)
+    - \frac{\cosh(qL)}{\sinh(qL)}\sinh(qx)\right]
+  = \frac{C_0}{s}\,\frac{\sinh\bigl(q(L-x)\bigr)}{\sinh(qL)}.
+\end{equation}
+
+\subsection{Downstream Flux and Cumulative Permeation}
+\label{sec:single-downstream}
+
+The diffusive flux at the downstream face $x = L$ is
+\begin{equation}
+  J(L,t) = -D\,\pdv{\Conc}{x}\bigg|_{x=L}.
+\end{equation}
+In the Laplace domain, differentiating \cref{eq:single-laplace-soln}:
+\begin{equation}
+  \pdv{\bar{\Conc}}{x}\bigg|_{x=L}
+  = \frac{C_0}{s}\,\frac{-q\cosh\bigl(q(L-L)\bigr)}{\sinh(qL)}
+  = \frac{-C_0\,q}{s\,\sinh(qL)}.
+\end{equation}
+Therefore,
+\begin{equation}
+  \label{eq:single-flux-laplace}
+  \bar{J}(L,s) = -D\cdot\frac{-C_0\,q}{s\,\sinh(qL)}
+  = \frac{D\,C_0\,q}{s\,\sinh(qL)}.
+\end{equation}
+The cumulative permeation is $\Cum(t) = \int_0^t J(L,t')\,\dd{t'}$, so in the
+Laplace domain:
+\begin{equation}
+  \label{eq:single-cum-laplace}
+  \bar{\Cum}(s) = \frac{\bar{J}(L,s)}{s}
+  = \frac{D\,C_0\,q}{s^2\,\sinh(qL)}.
+\end{equation}
+
+\subsection{Timelag Extraction via Small-\texorpdfstring{$s$}{s} Expansion}
+\label{sec:single-timelag}
+
+The long-time behaviour of $\Cum(t)$ corresponds to the small-$s$ behaviour of
+$\bar{\Cum}(s)$.  We expand systematically.  Since $q = \sqrt{s/D}$, we have
+$qL = L\sqrt{s/D}$ and
+\begin{equation}
+  \label{eq:sinh-expansion}
+  \sinh(qL) = qL + \frac{(qL)^3}{6} + \frac{(qL)^5}{120} + \cdots
+  = qL\left[1 + \frac{(qL)^2}{6} + \frac{(qL)^4}{120} + \cdots\right].
+\end{equation}
+Substituting $(qL)^2 = sL^2/D$:
+\begin{equation}
+  \sinh(qL) = qL\left[1 + \frac{sL^2}{6D} + \frac{s^2 L^4}{120 D^2}
+  + \cdots\right].
+\end{equation}
+
+Now, substituting into \cref{eq:single-cum-laplace}:
+\begin{align}
+  \bar{\Cum}(s)
+  &= \frac{D\,C_0\,q}{s^2\,qL\bigl[1 + \frac{sL^2}{6D} + O(s^2)\bigr]}
+  = \frac{D\,C_0}{s^2\,L}\,
+    \frac{1}{1 + \frac{sL^2}{6D} + O(s^2)}.
+\end{align}
+Expanding $\bigl(1 + \epsilon\bigr)^{-1} \approx 1 - \epsilon + \epsilon^2
+- \cdots$ for small $\epsilon = sL^2/(6D) + O(s^2)$:
+\begin{equation}
+  \label{eq:single-cum-expanded}
+  \bar{\Cum}(s) = \frac{D\,C_0}{L}\left[\frac{1}{s^2}
+  - \frac{L^2}{6D}\,\frac{1}{s} + O(1)\right].
+\end{equation}
+
+Inverting term by term using $\mathcal{L}^{-1}\{1/s^2\} = t$ and
+$\mathcal{L}^{-1}\{1/s\} = 1$:
+\begin{equation}
+  \label{eq:single-Q-asymptote}
+  \Cum(t) \xrightarrow{t\to\infty} \frac{D\,C_0}{L}
+  \left(t - \frac{L^2}{6D}\right)
+  = \Jss\left(t - \tlag\right),
+\end{equation}
+where we identify the steady-state flux and timelag:
+\begin{equation}
+  \label{eq:single-Jss-tlag}
+  \boxed{\Jss = \frac{D\,C_0}{L}, \qquad
+  \tlag = \frac{L^2}{6D}.}
+\end{equation}
+The timelag is the $t$-intercept of the linear asymptote of $\Cum(t)$.
+
+\subsection{Upstream Lead Time}
+\label{sec:single-upstream}
+
+The \emph{upstream} flux at $x = 0$ describes the rate at which gas enters
+the membrane.  From \cref{eq:single-laplace-soln}:
+\begin{equation}
+  \pdv{\bar{\Conc}}{x}\bigg|_{x=0}
+  = \frac{C_0}{s}\,\frac{-q\cosh(qL)}{\sinh(qL)}
+  = \frac{-C_0\,q\cosh(qL)}{s\,\sinh(qL)}.
+\end{equation}
+The upstream flux (into the membrane, taken as positive inward) is
+\begin{equation}
+  \label{eq:single-upstream-flux}
+  \bar{J}_{\mathrm{up}}(s) = -D\,\pdv{\bar{\Conc}}{x}\bigg|_{x=0}
+  = \frac{D\,C_0\,q\,\cosh(qL)}{s\,\sinh(qL)}.
+\end{equation}
+The cumulative upstream absorption is
+\begin{equation}
+  \label{eq:single-cum-up}
+  \bar{\Cum}_{\mathrm{up}}(s)
+  = \frac{D\,C_0\,q\,\cosh(qL)}{s^2\,\sinh(qL)}.
+\end{equation}
+
+For the small-$s$ expansion, we additionally need
+\begin{equation}
+  \cosh(qL) = 1 + \frac{(qL)^2}{2} + \frac{(qL)^4}{24} + \cdots
+  = 1 + \frac{sL^2}{2D} + O(s^2).
+\end{equation}
+Therefore,
+\begin{align}
+  \bar{\Cum}_{\mathrm{up}}(s)
+  &= \frac{D\,C_0}{s^2\,L}\,
+    \frac{1 + \frac{sL^2}{2D} + O(s^2)}{1 + \frac{sL^2}{6D} + O(s^2)}
+  \notag\\
+  &= \frac{D\,C_0}{s^2\,L}
+    \left[1 + \frac{sL^2}{2D} + O(s^2)\right]
+    \left[1 - \frac{sL^2}{6D} + O(s^2)\right]
+  \notag\\
+  &= \frac{D\,C_0}{L}\left[\frac{1}{s^2}
+    + \left(\frac{L^2}{2D} - \frac{L^2}{6D}\right)\frac{1}{s}
+    + O(1)\right]
+  \notag\\
+  &= \frac{D\,C_0}{L}\left[\frac{1}{s^2}
+    + \frac{L^2}{3D}\,\frac{1}{s} + O(1)\right].
+\end{align}
+Inverting:
+\begin{equation}
+  \label{eq:single-Qup-asymptote}
+  \Cum_{\mathrm{up}}(t) \xrightarrow{t\to\infty}
+  \frac{D\,C_0}{L}\left(t + \frac{L^2}{3D}\right).
+\end{equation}
+
+\begin{remark}
+The upstream cumulative absorption increases with a positive offset
+$+L^2/(3D)$ rather than a negative intercept.  This reflects the fact that
+during the transient, the membrane absorbs gas from the upstream face faster
+than would occur in steady state.  The \emph{upstream lead time} is defined as
+\begin{equation}
+  \label{eq:upstream-lead-time}
+  \boxed{\theta_{\mathrm{up}} = \frac{L^2}{3D} = 2\,\tlag.}
+\end{equation}
+\end{remark}
+
+\begin{remark}
+\label{rem:up-vs-down}
+The downstream timelag $\tlag = L^2/(6D)$ and upstream lead time
+$\theta_{\mathrm{up}} = L^2/(3D)$ satisfy $\theta_{\mathrm{up}} = 2\,\tlag$.
+For a single homogeneous layer, both quantities depend on the same single
+parameter~$D$, so they are not independent.  This simple ratio
+$\theta_{\mathrm{up}}/\tlag = 2$ in fact serves as a diagnostic for membrane
+homogeneity \cite{Petropoulos1973,Crank1975}: departures indicate
+heterogeneity, concentration-dependent diffusivity, or trapping.
+\end{remark}

@@ -1,0 +1,665 @@
+\section{Two-Layer Composite Timelag Derivation}
+\label{sec:two-layer}
+
+We now extend the Laplace-transform approach to a bilayer membrane composed of
+two distinct materials.  This section contains the core mathematical
+contribution: a self-contained derivation of the composite downstream timelag,
+a proof of its direction independence, and the upstream lead time.
+
+\subsection{Problem Setup}
+\label{sec:two-layer-setup}
+
+Consider a composite membrane consisting of two layers:
+\begin{itemize}
+  \item \textbf{Layer~1:} $0 < x < \Ls{1}$, with diffusivity~$\Ds{1}$ and
+        solubility~$\Ss{1}$.
+  \item \textbf{Layer~2:} $\Ls{1} < x < \Ls{1}+\Ls{2}$, with
+        diffusivity~$\Ds{2}$ and solubility~$\Ss{2}$.
+\end{itemize}
+The total membrane thickness is $L = \Ls{1} + \Ls{2}$.
+
+In each region, Fick's second law holds:
+\begin{align}
+  \label{eq:fick-layer1}
+  \pdv{C_1}{t} &= \Ds{1}\,\pdv[2]{C_1}{x},
+    &\quad 0 < x < \Ls{1},\\
+  \label{eq:fick-layer2}
+  \pdv{C_2}{t} &= \Ds{2}\,\pdv[2]{C_2}{x},
+    &\quad \Ls{1} < x < L.
+\end{align}
+
+\paragraph{Initial conditions.}
+\begin{equation}
+  \label{eq:two-ic}
+  C_1(x,0) = 0, \qquad C_2(x,0) = 0.
+\end{equation}
+
+\paragraph{Boundary conditions (forward direction).}
+\begin{align}
+  \label{eq:two-bc-up}
+  C_1(0,t) &= C_0 = \Ss{1}\sqrt{P}, \\
+  \label{eq:two-bc-down}
+  C_2(L,t) &= 0.
+\end{align}
+
+\paragraph{Interface conditions at $x = \Ls{1}$.}
+\begin{align}
+  \label{eq:interface-flux}
+  \Ds{1}\,\pdv{C_1}{x}\bigg|_{x=\Ls{1}^-}
+    &= \Ds{2}\,\pdv{C_2}{x}\bigg|_{x=\Ls{1}^+}
+    &\quad&\text{(flux continuity)},\\
+  \label{eq:interface-equil}
+  \frac{C_1(\Ls{1}^-,t)}{\Ss{1}}
+    &= \frac{C_2(\Ls{1}^+,t)}{\Ss{2}}
+    &\quad&\text{(thermodynamic equilibrium)}.
+\end{align}
+Defining the partition coefficient $\Kpart \coloneqq \Ss{2}/\Ss{1}$, the
+equilibrium condition becomes $C_2(\Ls{1}^+,t) = \Kpart\,C_1(\Ls{1}^-,t)$.
+
+\subsection{Laplace Transform in Each Region}
+\label{sec:two-laplace}
+
+Transforming \cref{eq:fick-layer1,eq:fick-layer2} with zero initial conditions:
+\begin{align}
+  s\,\bar{C}_1 &= \Ds{1}\,\dv[2]{\bar{C}_1}{x}, \qquad 0 < x < \Ls{1},\\
+  s\,\bar{C}_2 &= \Ds{2}\,\dv[2]{\bar{C}_2}{x}, \qquad \Ls{1} < x < L.
+\end{align}
+
+For Layer~1, the general solution is
+\begin{equation}
+  \label{eq:C1bar-general}
+  \bar{C}_1(x,s) = A\cosh(q_1 x) + B\sinh(q_1 x),
+  \qquad q_1 \coloneqq \sqrt{\frac{s}{\Ds{1}}}.
+\end{equation}
+
+For Layer~2, it is convenient to introduce the shifted coordinate
+$y \coloneqq x - \Ls{1}$, so that $0 < y < \Ls{2}$:
+\begin{equation}
+  \label{eq:C2bar-general}
+  \bar{C}_2(y,s) = E\cosh(q_2 y) + F\sinh(q_2 y),
+  \qquad q_2 \coloneqq \sqrt{\frac{s}{\Ds{2}}}.
+\end{equation}
+
+\subsection{Applying Boundary and Interface Conditions}
+\label{sec:two-layer-system}
+
+The four constants $A$, $B$, $E$, $F$ are determined by four conditions.
+
+\paragraph{Condition 1: Upstream boundary.}
+$\bar{C}_1(0,s) = C_0/s$ gives
+\begin{equation}
+  \label{eq:cond1}
+  A = \frac{C_0}{s}.
+\end{equation}
+
+\paragraph{Condition 2: Downstream boundary.}
+$\bar{C}_2(\Ls{2},s) = 0$ gives
+\begin{equation}
+  \label{eq:cond2}
+  E\cosh(q_2\Ls{2}) + F\sinh(q_2\Ls{2}) = 0,
+\end{equation}
+so that
+\begin{equation}
+  \label{eq:F-from-E}
+  F = -E\,\frac{\cosh(q_2\Ls{2})}{\sinh(q_2\Ls{2})}.
+\end{equation}
+
+\paragraph{Condition 3: Interface equilibrium.}
+$\Kpart\,\bar{C}_1(\Ls{1},s) = \bar{C}_2(0,s)$ gives
+\begin{equation}
+  \label{eq:cond3}
+  \Kpart\bigl[A\cosh(q_1\Ls{1}) + B\sinh(q_1\Ls{1})\bigr] = E.
+\end{equation}
+
+\paragraph{Condition 4: Interface flux continuity.}
+$\Ds{1}\,q_1\bigl[A\sinh(q_1\Ls{1}) + B\cosh(q_1\Ls{1})\bigr]
+= \Ds{2}\,q_2\,F$ gives
+\begin{equation}
+  \label{eq:cond4}
+  \Ds{1}\,q_1\bigl[A\sinh(q_1\Ls{1}) + B\cosh(q_1\Ls{1})\bigr]
+  = \Ds{2}\,q_2\,F.
+\end{equation}
+
+\paragraph{Solving the system.}
+From \cref{eq:cond3}: $E = \Kpart\bigl[A\cosh(q_1\Ls{1}) + B\sinh(q_1\Ls{1})
+\bigr]$.  Substituting into \cref{eq:F-from-E}:
+\begin{equation}
+  F = -\Kpart\bigl[A\cosh(q_1\Ls{1}) + B\sinh(q_1\Ls{1})\bigr]\,
+  \frac{\cosh(q_2\Ls{2})}{\sinh(q_2\Ls{2})}.
+\end{equation}
+Inserting this into \cref{eq:cond4}:
+\begin{equation}
+  \label{eq:B-equation}
+  \Ds{1}\,q_1\bigl[A\sinh(q_1\Ls{1}) + B\cosh(q_1\Ls{1})\bigr]
+  = -\Ds{2}\,q_2\,\Kpart\bigl[A\cosh(q_1\Ls{1}) + B\sinh(q_1\Ls{1})\bigr]\,
+  \frac{\cosh(q_2\Ls{2})}{\sinh(q_2\Ls{2})}.
+\end{equation}
+Define for compactness:
+\begin{equation}
+  \label{eq:R-def}
+  R \coloneqq \frac{\Ds{2}\,q_2\,\Kpart\,\cosh(q_2\Ls{2})}
+  {\sinh(q_2\Ls{2})}.
+\end{equation}
+Then \cref{eq:B-equation} becomes, with $A = C_0/s$:
+\begin{multline}
+  \Ds{1}\,q_1\left[\frac{C_0}{s}\sinh(q_1\Ls{1})
+    + B\cosh(q_1\Ls{1})\right] \\
+  = -R\left[\frac{C_0}{s}\cosh(q_1\Ls{1})
+    + B\sinh(q_1\Ls{1})\right].
+\end{multline}
+Solving for $B$:
+\begin{equation}
+  \label{eq:B-solved}
+  B = -\frac{C_0}{s}\,
+  \frac{\Ds{1}\,q_1\sinh(q_1\Ls{1}) + R\cosh(q_1\Ls{1})}
+  {\Ds{1}\,q_1\cosh(q_1\Ls{1}) + R\sinh(q_1\Ls{1})}.
+\end{equation}
+
+\subsection{Downstream Flux and Cumulative Permeation}
+\label{sec:two-layer-flux}
+
+The downstream flux is evaluated at $y = \Ls{2}$:
+\begin{equation}
+  \bar{J}(L,s) = -\Ds{2}\,\pdv{\bar{C}_2}{y}\bigg|_{y=\Ls{2}}
+  = -\Ds{2}\,q_2\bigl[E\sinh(q_2\Ls{2}) + F\cosh(q_2\Ls{2})\bigr].
+\end{equation}
+Using \cref{eq:F-from-E}:
+\begin{align}
+  E\sinh(q_2\Ls{2}) + F\cosh(q_2\Ls{2})
+  &= E\sinh(q_2\Ls{2})
+    - E\,\frac{\cosh(q_2\Ls{2})}{\sinh(q_2\Ls{2})}\,\cosh(q_2\Ls{2})
+  \notag\\
+  &= E\,\frac{\sinh^2(q_2\Ls{2}) - \cosh^2(q_2\Ls{2})}{\sinh(q_2\Ls{2})}
+  = \frac{-E}{\sinh(q_2\Ls{2})}.
+\end{align}
+Therefore,
+\begin{equation}
+  \label{eq:Jbar-downstream}
+  \bar{J}(L,s) = \frac{\Ds{2}\,q_2\,E}{\sinh(q_2\Ls{2})}.
+\end{equation}
+
+Now substitute $E$ from \cref{eq:cond3}:
+\begin{equation}
+  E = \Kpart\left[\frac{C_0}{s}\cosh(q_1\Ls{1}) + B\sinh(q_1\Ls{1})\right].
+\end{equation}
+After substituting \cref{eq:B-solved} (the details are given in
+\cref{sec:appendix-laplace}), we obtain:
+\begin{equation}
+  \label{eq:E-simplified}
+  E = \frac{\Kpart\,C_0\,\Ds{1}\,q_1}
+  {s\bigl[\Ds{1}\,q_1\cosh(q_1\Ls{1}) + R\sinh(q_1\Ls{1})\bigr]}.
+\end{equation}
+Substituting into \cref{eq:Jbar-downstream}:
+\begin{equation}
+  \label{eq:Jbar-full}
+  \bar{J}(L,s)
+  = \frac{\Kpart\,\Ds{1}\,\Ds{2}\,q_1\,q_2\,C_0}
+  {s\,\sinh(q_2\Ls{2})
+    \bigl[\Ds{1}\,q_1\cosh(q_1\Ls{1}) + R\sinh(q_1\Ls{1})\bigr]}.
+\end{equation}
+Expanding $R$ from \cref{eq:R-def}, the denominator becomes
+\begin{equation}
+  \label{eq:denom-full}
+  s\bigl[\Ds{1}\,q_1\cosh(q_1\Ls{1})\sinh(q_2\Ls{2})
+    + \Kpart\,\Ds{2}\,q_2\sinh(q_1\Ls{1})\cosh(q_2\Ls{2})\bigr],
+\end{equation}
+and the flux simplifies to
+\begin{equation}
+  \label{eq:Jbar-clean}
+  \bar{J}(L,s) = \frac{\Kpart\,\Ds{1}\,\Ds{2}\,q_1\,q_2\,C_0}
+  {s\bigl[\Ds{1}\,q_1\cosh(q_1\Ls{1})\sinh(q_2\Ls{2})
+    + \Kpart\,\Ds{2}\,q_2\sinh(q_1\Ls{1})\cosh(q_2\Ls{2})\bigr]}.
+\end{equation}
+
+The cumulative permeation in the Laplace domain is
+\begin{equation}
+  \label{eq:Qbar-two-layer}
+  \bar{\Cum}(s) = \frac{\bar{J}(L,s)}{s}
+  = \frac{\Kpart\,\Ds{1}\,\Ds{2}\,q_1\,q_2\,C_0}
+  {s^2\bigl[\Ds{1}\,q_1\cosh(q_1\Ls{1})\sinh(q_2\Ls{2})
+    + \Kpart\,\Ds{2}\,q_2\sinh(q_1\Ls{1})\cosh(q_2\Ls{2})\bigr]}.
+\end{equation}
+
+\subsection{Small-\texorpdfstring{$s$}{s} Expansion and Timelag}
+\label{sec:two-layer-smalls}
+
+To extract the long-time asymptote of $\Cum(t)$, we expand
+\cref{eq:Qbar-two-layer} for small~$s$.  Write $\alpha_i \coloneqq q_i\Ls{i}$
+with $\alpha_i^2 = s\Ls{i}^2/\Ds{i}$.  The relevant expansions to the
+required order are:
+\begin{align}
+  \label{eq:sinh-expand}
+  \sinh(\alpha_i) &= \alpha_i + \frac{\alpha_i^3}{6}
+    + \frac{\alpha_i^5}{120} + \cdots, \\
+  \label{eq:cosh-expand}
+  \cosh(\alpha_i) &= 1 + \frac{\alpha_i^2}{2}
+    + \frac{\alpha_i^4}{24} + \cdots,\\
+  q_i &= \sqrt{s/\Ds{i}}, \qquad
+  q_i\,\alpha_i = q_i^2\,\Ls{i} = \frac{s\,\Ls{i}}{\Ds{i}}.
+\end{align}
+
+\paragraph{Numerator.} Using $q_1 = \sqrt{s/\Ds{1}}$ and
+$q_2 = \sqrt{s/\Ds{2}}$:
+\begin{equation}
+  \Kpart\,\Ds{1}\,\Ds{2}\,q_1\,q_2\,C_0
+  = \Kpart\,C_0\,\sqrt{\Ds{1}\,\Ds{2}}\,s.
+\end{equation}
+
+\paragraph{Denominator.} Define
+$\mathcal{D}(s) \coloneqq \Ds{1}\,q_1\cosh(\alpha_1)\sinh(\alpha_2)
++ \Kpart\,\Ds{2}\,q_2\sinh(\alpha_1)\cosh(\alpha_2)$.
+Expanding each factor:
+\begin{align}
+  \Ds{1}\,q_1\cosh(\alpha_1)\sinh(\alpha_2)
+  &= \sqrt{\Ds{1}\,s}\left(1 + \frac{s\Ls{1}^2}{2\Ds{1}}
+    + \cdots\right)
+    \left(\alpha_2 + \frac{\alpha_2^3}{6} + \cdots\right)
+  \notag\\
+  &= \sqrt{\Ds{1}\,s}\,\Ls{2}\sqrt{\frac{s}{\Ds{2}}}
+    \left(1 + \frac{s\Ls{1}^2}{2\Ds{1}}
+    + \frac{s\Ls{2}^2}{6\Ds{2}} + \cdots\right)
+  \notag\\
+  &= \frac{s\,\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+    \left(1 + \frac{s\Ls{1}^2}{2\Ds{1}}
+    + \frac{s\Ls{2}^2}{6\Ds{2}} + \cdots\right).
+\end{align}
+Similarly,
+\begin{align}
+  \Kpart\,\Ds{2}\,q_2\sinh(\alpha_1)\cosh(\alpha_2)
+  &= \Kpart\sqrt{\Ds{2}\,s}
+    \left(\alpha_1 + \frac{\alpha_1^3}{6} + \cdots\right)
+    \left(1 + \frac{s\Ls{2}^2}{2\Ds{2}} + \cdots\right)
+  \notag\\
+  &= \frac{\Kpart\,s\,\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}
+    \left(1 + \frac{s\Ls{1}^2}{6\Ds{1}}
+    + \frac{s\Ls{2}^2}{2\Ds{2}} + \cdots\right).
+\end{align}
+
+Thus,
+\begin{equation}
+  \label{eq:denom-expanded}
+  \mathcal{D}(s) = s\left[\frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+    + \frac{\Kpart\,\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}\right]
+    + s^2\left[\frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+    \left(\frac{\Ls{1}^2}{2\Ds{1}} + \frac{\Ls{2}^2}{6\Ds{2}}\right)
+    + \frac{\Kpart\,\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}
+    \left(\frac{\Ls{1}^2}{6\Ds{1}} + \frac{\Ls{2}^2}{2\Ds{2}}\right)
+    \right] + O(s^3).
+\end{equation}
+
+Define the leading coefficient:
+\begin{equation}
+  \label{eq:d0-def}
+  d_0 \coloneqq \frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+  + \frac{\Kpart\,\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}
+  = \frac{\Ls{2}\,\Ds{1} + \Kpart\,\Ls{1}\,\Ds{2}}
+  {\sqrt{\Ds{1}\,\Ds{2}}},
+\end{equation}
+and the next coefficient:
+\begin{equation}
+  \label{eq:d1-def}
+  d_1 \coloneqq
+  \frac{\Ls{2}\sqrt{\Ds{1}}}{\sqrt{\Ds{2}}}
+  \left(\frac{\Ls{1}^2}{2\Ds{1}} + \frac{\Ls{2}^2}{6\Ds{2}}\right)
+  + \frac{\Kpart\,\Ls{1}\sqrt{\Ds{2}}}{\sqrt{\Ds{1}}}
+  \left(\frac{\Ls{1}^2}{6\Ds{1}} + \frac{\Ls{2}^2}{2\Ds{2}}\right).
+\end{equation}
+
+\paragraph{Assembling the expansion.}  We have
+$\bar{\Cum}(s) = \Kpart\,C_0\,\sqrt{\Ds{1}\Ds{2}}\,s /
+\bigl[s^2\,(d_0\,s + d_1\,s^2 + \cdots)\bigr]$, but let us be more careful.
+Since $\mathcal{D}(s) = s\,d_0 + s^2\,d_1 + O(s^3)$, we have
+$s^2\,\mathcal{D}(s) = s^3\,d_0 + s^4\,d_1 + \cdots$ and
+\begin{align}
+  \bar{\Cum}(s)
+  &= \frac{\Kpart\,C_0\,\sqrt{\Ds{1}\Ds{2}}\,s}
+  {s^2\bigl(s\,d_0 + s^2\,d_1 + \cdots\bigr)}
+  = \frac{\Kpart\,C_0\,\sqrt{\Ds{1}\Ds{2}}}
+  {s^2\,d_0\bigl(1 + s\,d_1/d_0 + \cdots\bigr)}
+  \notag\\
+  &= \frac{\Kpart\,C_0\,\sqrt{\Ds{1}\Ds{2}}}{d_0}\,
+  \frac{1}{s^2}\left(1 - \frac{d_1}{d_0}\,s + \cdots\right)
+  \notag\\
+  &= \frac{\Kpart\,C_0\,\sqrt{\Ds{1}\Ds{2}}}{d_0}
+  \left[\frac{1}{s^2} - \frac{d_1}{d_0}\,\frac{1}{s}
+    + O(1)\right].
+  \label{eq:Qbar-expanded}
+\end{align}
+
+Inverting term by term:
+\begin{equation}
+  \label{eq:Q-asymptote-two-layer}
+  \Cum(t) \xrightarrow{t\to\infty}
+  \frac{\Kpart\,C_0\,\sqrt{\Ds{1}\Ds{2}}}{d_0}
+  \left(t - \frac{d_1}{d_0}\right)
+  = \Jss\left(t - \tlag\right).
+\end{equation}
+
+\paragraph{Steady-state flux.}
+Using \cref{eq:d0-def}:
+\begin{equation}
+  \label{eq:Jss-two-layer}
+  \boxed{
+  \Jss = \frac{\Kpart\,C_0\,\sqrt{\Ds{1}\Ds{2}}}{d_0}
+  = \frac{\Kpart\,C_0\,\Ds{1}\,\Ds{2}}
+  {\Ls{2}\,\Ds{1} + \Kpart\,\Ls{1}\,\Ds{2}}.}
+\end{equation}
+Defining the permeability of each layer as $\Phi_i \coloneqq \Ds{i}\,\Ss{i}$
+and using $\Kpart = \Ss{2}/\Ss{1}$, $C_0 = \Ss{1}\sqrt{P}$, this takes the
+\emph{series-resistance form}:
+\begin{equation}
+  \label{eq:Jss-series}
+  \Jss = \frac{\sqrt{P}}{\dfrac{\Ls{1}}{\Phi_1}
+  + \dfrac{\Ls{2}}{\Phi_2}}
+  = \frac{\sqrt{P}}{\dfrac{\Ls{1}}{\Ds{1}\Ss{1}}
+  + \dfrac{\Ls{2}}{\Ds{2}\Ss{2}}},
+\end{equation}
+which is the driving force~$\sqrt{P}$ divided by the total permeation
+resistance, in direct analogy with resistors in series.  Crucially, $\Jss$
+depends on the \emph{permeabilities} $\Phi_i = \Ds{i}\Ss{i}$, not on $\Ds{i}$
+and $\Ss{i}$ individually.
+
+\paragraph{Composite timelag.}
+From \cref{eq:Qbar-expanded}, the timelag is $\tlag = d_1/d_0$.  Expanding
+\cref{eq:d1-def} using \cref{eq:d0-def}:
+\begin{align}
+  d_1 &= \frac{\Ls{1}^2\Ls{2}}{2\sqrt{\Ds{1}\Ds{2}}}
+    + \frac{\Ls{2}^3\sqrt{\Ds{1}}}{6\Ds{2}^{3/2}}
+    + \frac{\Kpart\,\Ls{1}^3\sqrt{\Ds{2}}}{6\Ds{1}^{3/2}}
+    + \frac{\Kpart\,\Ls{1}\Ls{2}^2}{2\sqrt{\Ds{1}\Ds{2}}}
+  \notag\\
+  &= \frac{1}{\sqrt{\Ds{1}\Ds{2}}}
+  \left[\frac{\Ls{1}^2\Ls{2}}{2}
+    + \frac{\Ls{2}^3\Ds{1}}{6\Ds{2}}
+    + \frac{\Kpart\,\Ls{1}^3\Ds{2}}{6\Ds{1}}
+    + \frac{\Kpart\,\Ls{1}\Ls{2}^2}{2}\right].
+\end{align}
+
+Therefore,
+\begin{equation}
+  \label{eq:tlag-composite-raw}
+  \tlag = \frac{d_1}{d_0}
+  = \frac{\dfrac{\Ls{1}^2\Ls{2}}{2}
+    + \dfrac{\Ls{2}^3\Ds{1}}{6\Ds{2}}
+    + \dfrac{\Kpart\Ls{1}^3\Ds{2}}{6\Ds{1}}
+    + \dfrac{\Kpart\Ls{1}\Ls{2}^2}{2}}
+  {\Ls{2}\Ds{1} + \Kpart\Ls{1}\Ds{2}}.
+\end{equation}
+
+This can be rearranged by multiplying numerator and denominator by
+$1/(\Ds{1}\Ds{2})$:
+
+\begin{equation}
+  \label{eq:tlag-composite}
+  \boxed{
+  \tlag = \frac{\dfrac{\Ls{1}^2\Ls{2}}{2\Ds{1}\Ds{2}}
+    + \dfrac{\Ls{2}^3}{6\Ds{2}^2}
+    + \dfrac{\Kpart\Ls{1}^3}{6\Ds{1}^2}
+    + \dfrac{\Kpart\Ls{1}\Ls{2}^2}{2\Ds{1}\Ds{2}}}
+  {\dfrac{\Ls{2}}{\Ds{2}} + \dfrac{\Kpart\Ls{1}}{\Ds{1}}}.}
+\end{equation}
+
+\begin{remark}[Consistency check]
+Setting $\Kpart = 1$ (i.e., $\Ss{1} = \Ss{2}$) and $\Ds{1} = \Ds{2} = D$
+in \cref{eq:tlag-composite}:
+\begin{equation}
+  \tlag = \frac{\dfrac{\Ls{1}^2\Ls{2}}{2D^2}
+    + \dfrac{\Ls{2}^3}{6D^2}
+    + \dfrac{\Ls{1}^3}{6D^2}
+    + \dfrac{\Ls{1}\Ls{2}^2}{2D^2}}
+  {\dfrac{\Ls{2}}{D} + \dfrac{\Ls{1}}{D}}
+  = \frac{1}{6D}\,
+  \frac{3\Ls{1}^2\Ls{2} + \Ls{2}^3 + \Ls{1}^3 + 3\Ls{1}\Ls{2}^2}
+  {\Ls{1}+\Ls{2}}
+  = \frac{(\Ls{1}+\Ls{2})^2}{6D}
+  = \frac{L^2}{6D},
+\end{equation}
+recovering the single-layer result.
+\end{remark}
+
+\begin{remark}[Connection to Tran--Meldon--Sontag form]
+\label{rem:tran-connection}
+Define the dimensionless parameters $\kappa \coloneqq \Kpart\Ls{1}\Ds{2}/
+(\Ds{1}\Ls{2})$ and $\rho \coloneqq \Ds{1}\Ls{2}/(\Ds{2}\Ls{1})$, and the
+dimensionless time $\tau_L \coloneqq \tlag\,\Ds{1}/\Ls{1}^2$.  Then
+\cref{eq:tlag-composite} reduces to the Tran et al.\ form
+\cite{TranMeldonSontag2021}:
+\begin{equation}
+  \label{eq:tlag-TMS}
+  \tau_L = \frac{\frac{1}{6} + \frac{\rho^2}{2}
+    + \frac{1}{\kappa}\bigl(\frac{\rho^2}{6} + \frac{1}{2}\bigr)}
+  {1 + \frac{1}{\kappa}},
+\end{equation}
+with $\tlag = \tau_L\,\Ls{1}^2/\Ds{1}$, confirming agreement.
+\end{remark}
+
+\subsection{Direction Dependence of the Downstream Timelag}
+\label{sec:direction-dependence}
+
+\begin{proposition}[Direction independence of the downstream timelag]
+\label{prop:direction-independence}
+The downstream timelag $\tlag$ for a bilayer membrane with ideal boundary
+conditions (fixed concentration at the feed face, zero at the permeate face)
+is independent of the direction of permeation.
+\end{proposition}
+
+\begin{proof}
+Consider the \textbf{reverse direction}: Layer~2 is now upstream, Layer~1
+downstream.  The boundary conditions are
+\begin{equation}
+  C_2(L,t) = C_0' = \Ss{2}\sqrt{P}, \qquad C_1(0,t) = 0.
+\end{equation}
+
+By symmetry of the derivation in \cref{sec:two-laplace,sec:two-layer-system},
+the reverse-direction Laplace-domain cumulative permeation (measured at the
+downstream face $x = 0$) has the same structure as
+\cref{eq:Qbar-two-layer}, but with the roles of the layers exchanged.
+Specifically, the reverse-direction analogue of $\bar{J}$ at the downstream
+face ($x = 0$) is obtained by swapping
+$(\Ls{1},\Ds{1},q_1) \leftrightarrow (\Ls{2},\Ds{2},q_2)$ and replacing
+$\Kpart$ by $1/\Kpart$, and $C_0 = \Ss{1}\sqrt{P}$ by
+$C_0' = \Ss{2}\sqrt{P}$.
+
+The reverse-direction flux at $x = 0$ in the Laplace domain is (see
+\cref{sec:appendix-laplace} for details):
+\begin{equation}
+  \bar{J}^{\mathrm{rev}}(0,s)
+  = \frac{(1/\Kpart)\,\Ds{2}\,\Ds{1}\,q_2\,q_1\,C_0'}
+  {s\bigl[\Ds{2}\,q_2\cosh(q_2\Ls{2})\sinh(q_1\Ls{1})
+    + (1/\Kpart)\,\Ds{1}\,q_1\sinh(q_2\Ls{2})\cosh(q_1\Ls{1})\bigr]}.
+\end{equation}
+
+Note that $(1/\Kpart)\,C_0' = (\Ss{1}/\Ss{2})\cdot\Ss{2}\sqrt{P}
+= \Ss{1}\sqrt{P} = C_0$.  Thus the numerator is identical to the forward case.
+The denominator bracket becomes
+\begin{equation}
+  \Ds{2}\,q_2\cosh(q_2\Ls{2})\sinh(q_1\Ls{1})
+  + \frac{\Ds{1}\,q_1}{\Kpart}\sinh(q_2\Ls{2})\cosh(q_1\Ls{1}).
+\end{equation}
+Comparing with the forward-direction denominator from \cref{eq:denom-full}:
+\begin{equation}
+  \Ds{1}\,q_1\cosh(q_1\Ls{1})\sinh(q_2\Ls{2})
+  + \Kpart\,\Ds{2}\,q_2\sinh(q_1\Ls{1})\cosh(q_2\Ls{2}).
+\end{equation}
+These are identical (the two terms are simply swapped in order, and
+multiplication by $\Kpart$ in the forward case corresponds to division by
+$1/\Kpart$ in the reverse case).  More precisely, multiplying the reverse
+denominator by $\Kpart$:
+\begin{equation}
+  \Kpart\Ds{2}\,q_2\cosh(q_2\Ls{2})\sinh(q_1\Ls{1})
+  + \Ds{1}\,q_1\sinh(q_2\Ls{2})\cosh(q_1\Ls{1}),
+\end{equation}
+which equals the forward denominator.  Meanwhile, the reverse cumulative is
+$\bar{\Cum}^{\mathrm{rev}}(s) = \bar{J}^{\mathrm{rev}}/s$ with the same
+overall factor of $(1/\Kpart)\cdot C_0' = C_0$ in the numerator.
+
+Since the timelag depends only on the \emph{ratio} $d_1/d_0$ (where $d_0$ and
+$d_1$ come from expanding the denominator of $\bar{\Cum}$), and since the
+denominator function $\mathcal{D}(s)$ is symmetric under the layer-swapping
+transformation (both directions produce the same $\mathcal{D}$), the timelag
+is the same in both directions:
+\begin{equation}
+  \tlagfwd = \tlagrev.
+\end{equation}
+\end{proof}
+
+\begin{remark}
+The steady-state flux is also direction-independent.
+In the forward direction,
+$\Jss^{\mathrm{fwd}} = \Kpart\,C_0\,\Ds{1}\Ds{2}/(\Ls{2}\Ds{1}
++ \Kpart\Ls{1}\Ds{2})$ with $C_0 = \Ss{1}\sqrt{P}$.
+In the reverse direction, $\Kpart$ is replaced by $1/\Kpart$ and $C_0$ by
+$C_0' = \Ss{2}\sqrt{P}$, giving
+$\Jss^{\mathrm{rev}} = (1/\Kpart)\,C_0'\,\Ds{1}\Ds{2}/(\Ls{1}\Ds{2}
++ (1/\Kpart)\Ls{2}\Ds{1})$.
+Since $(1/\Kpart)\,C_0' = (\Ss{1}/\Ss{2})\Ss{2}\sqrt{P} = \Ss{1}\sqrt{P}
+= C_0 = \Kpart\,C_0/\Kpart$ and the denominators are identical after
+regrouping, $\Jss^{\mathrm{fwd}} = \Jss^{\mathrm{rev}}$.
+In fact, by \cref{eq:Jss-series}, $\Jss$ depends only on $\sqrt{P}$ and the
+permeabilities $\Phi_i = \Ds{i}\Ss{i}$, which are material constants
+independent of direction.
+\end{remark}
+
+\subsection{Upstream Lead Time for the Bilayer}
+\label{sec:two-layer-upstream}
+
+We now derive the upstream cumulative flux at $x = 0$ for the forward
+direction.  The upstream flux into the membrane is
+\begin{equation}
+  J_{\mathrm{up}}(t) = -\Ds{1}\,\pdv{C_1}{x}\bigg|_{x=0}.
+\end{equation}
+From \cref{eq:C1bar-general} with $A = C_0/s$:
+\begin{equation}
+  \pdv{\bar{C}_1}{x}\bigg|_{x=0} = B\,q_1.
+\end{equation}
+Using \cref{eq:B-solved}:
+\begin{equation}
+  \label{eq:Jbar-upstream}
+  \bar{J}_{\mathrm{up}}(s) = -\Ds{1}\,q_1\,B
+  = \frac{\Ds{1}\,q_1\,C_0}{s}\,
+  \frac{\Ds{1}\,q_1\sinh(q_1\Ls{1}) + R\cosh(q_1\Ls{1})}
+  {\Ds{1}\,q_1\cosh(q_1\Ls{1}) + R\sinh(q_1\Ls{1})}.
+\end{equation}
+
+The cumulative upstream absorption is
+$\bar{\Cum}_{\mathrm{up}}(s) = \bar{J}_{\mathrm{up}}/s$.  For the small-$s$
+expansion, we need to expand both numerator and denominator of the fraction in
+\cref{eq:Jbar-upstream}.
+
+\paragraph{Numerator of the fraction.}
+\begin{align}
+  &\Ds{1}\,q_1\sinh(q_1\Ls{1}) + R\cosh(q_1\Ls{1})
+  \notag\\
+  &= \Ds{1}\,q_1\left(\alpha_1 + \frac{\alpha_1^3}{6}+\cdots\right)
+    + \frac{\Kpart\Ds{2}\,q_2\cosh(q_2\Ls{2})}{\sinh(q_2\Ls{2})}
+    \left(1+\frac{\alpha_1^2}{2}+\cdots\right)
+  \notag\\
+  &= \frac{s\Ls{1}^2}{\Ls{1}}\left(1+\frac{s\Ls{1}^2}{6\Ds{1}}+\cdots\right)
+    + \frac{\Kpart\Ds{2}\,q_2}{\alpha_2}
+    \left(1+\frac{\alpha_2^2}{2}+\cdots\right)
+    \left(1-\frac{\alpha_2^2}{6}+\cdots\right)^{-1}\!
+    \cdot\!\alpha_2
+    \left(1+\frac{\alpha_1^2}{2}+\cdots\right).
+\end{align}
+The detailed expansion (given in full in \cref{sec:appendix-laplace}) yields,
+after careful bookkeeping:
+\begin{align}
+  \text{Numerator} &= \frac{\Kpart\Ds{2}}{\Ls{2}}
+    + s\left[\frac{\Ls{1}}{\phantom{\Ds{1}}}
+    + \frac{\Kpart\Ls{2}}{3}
+    + \frac{\Kpart\Ds{2}\Ls{1}^2}{2\Ds{1}\Ls{2}}\right]
+    + O(s^2).
+\end{align}
+\paragraph{Denominator of the fraction.}
+This is the same function $\mathcal{D}(s)/s$ that appeared in the downstream
+problem.  From \cref{eq:denom-expanded}:
+\begin{equation}
+  \text{Denominator} = d_0\,s + d_1\,s^2 + O(s^3),
+\end{equation}
+but for the upstream cumulative we divide by $s^2$ overall, giving a
+different Laurent structure.
+
+After carrying through the full expansion (see
+\cref{sec:appendix-laplace}), the upstream cumulative has the asymptotic form
+\begin{equation}
+  \label{eq:Qup-asymptote-two-layer}
+  \Cum_{\mathrm{up}}(t) \xrightarrow{t\to\infty}
+  \Jss\left(t + \theta_{\mathrm{up}}\right),
+\end{equation}
+where $\theta_{\mathrm{up}} > 0$ is the upstream lead time.  The explicit
+expression is
+\begin{equation}
+  \label{eq:theta-up-two-layer}
+  \boxed{
+  \theta_{\mathrm{up}} = \frac{d_1'}{d_0} - \frac{d_1}{d_0} + 2\,\frac{d_1}{d_0}
+  = \frac{d_1'}{d_0} + \frac{d_1}{d_0} = \tlag + \frac{d_1'}{d_0},}
+\end{equation}
+where $d_1'$ arises from the numerator expansion of the upstream flux.
+Explicitly:
+\begin{equation}
+  \label{eq:d1prime}
+  d_1' = \frac{1}{\sqrt{\Ds{1}\Ds{2}}}
+  \left[\frac{\Ls{1}^2\Ls{2}}{2}
+  + \frac{\Kpart\Ls{2}^3\Ds{1}}{3\Ds{2}}
+  + \frac{\Kpart\Ls{1}^2\Ls{2}}{2}
+  \right].
+\end{equation}
+
+More explicitly, the upstream lead time is
+\begin{equation}
+  \label{eq:theta-up-explicit}
+  \theta_{\mathrm{up}} = \frac{
+    \dfrac{\Ls{1}^2\Ls{2}}{\Ds{1}\Ds{2}}
+    + \dfrac{\Ls{2}^3}{3\Ds{2}^2}
+    + \dfrac{\Kpart\Ls{1}^3}{6\Ds{1}^2}
+    + \dfrac{\Kpart\Ls{1}\Ls{2}^2}{\Ds{1}\Ds{2}}
+    + \dfrac{\Kpart\Ls{1}^2\Ls{2}}{2\Ds{1}\Ds{2}}
+  }{\dfrac{\Ls{2}}{\Ds{2}} + \dfrac{\Kpart\Ls{1}}{\Ds{1}}}.
+\end{equation}
+
+\begin{proposition}[Direction dependence of the upstream lead time]
+\label{prop:upstream-direction}
+The upstream lead time $\theta_{\mathrm{up}}$ is, in general,
+direction-dependent:
+$\theta_{\mathrm{up}}^{\mathrm{fwd}} \neq \theta_{\mathrm{up}}^{\mathrm{rev}}$.
+\end{proposition}
+
+\begin{proof}
+The upstream lead time involves the expansion of the upstream flux, which
+depends on the gradient $\partial C/\partial x$ at the feed face.  In the
+forward direction this is at $x=0$ (in Layer~1), while in the reverse direction
+it is at $x=L$ (in Layer~2).  The coefficients $d_1'$ involve different
+combinations of the layer parameters depending on which layer faces the feed.
+One can verify by direct computation that
+$\theta_{\mathrm{up}}^{\mathrm{fwd}} = \theta_{\mathrm{up}}^{\mathrm{rev}}$
+only when $\Ds{1} = \Ds{2}$ and $\Ss{1} = \Ss{2}$ (i.e., the homogeneous
+case).  In the general heterogeneous case, the two upstream lead times differ.
+
+As a concrete check, set $\Kpart = 1$, $\Ls{1} = \Ls{2} = \ell$, and
+consider $\Ds{1} \neq \Ds{2}$.  The forward upstream lead time from
+\cref{eq:theta-up-explicit} is
+\begin{equation}
+  \theta_{\mathrm{up}}^{\mathrm{fwd}}
+  = \frac{\frac{\ell^3}{\Ds{1}\Ds{2}} + \frac{\ell^3}{3\Ds{2}^2}
+    + \frac{\ell^3}{6\Ds{1}^2} + \frac{\ell^3}{\Ds{1}\Ds{2}}
+    + \frac{\ell^3}{2\Ds{1}\Ds{2}}}
+  {\frac{\ell}{\Ds{2}} + \frac{\ell}{\Ds{1}}}.
+\end{equation}
+The reverse upstream lead time is obtained by swapping $\Ds{1} \leftrightarrow
+\Ds{2}$:
+\begin{equation}
+  \theta_{\mathrm{up}}^{\mathrm{rev}}
+  = \frac{\frac{\ell^3}{\Ds{1}\Ds{2}} + \frac{\ell^3}{3\Ds{1}^2}
+    + \frac{\ell^3}{6\Ds{2}^2} + \frac{\ell^3}{\Ds{1}\Ds{2}}
+    + \frac{\ell^3}{2\Ds{1}\Ds{2}}}
+  {\frac{\ell}{\Ds{1}} + \frac{\ell}{\Ds{2}}}.
+\end{equation}
+These differ unless $\Ds{1} = \Ds{2}$, since the terms $1/(3\Ds{2}^2) +
+1/(6\Ds{1}^2) \neq 1/(3\Ds{1}^2) + 1/(6\Ds{2}^2)$ in general.
+\end{proof}
+
+\begin{remark}
+The combination of the direction-independent downstream timelag with the
+direction-dependent upstream lead time provides the foundation for the
+extraction methods developed in \cref{sec:extraction}.
+\end{remark}

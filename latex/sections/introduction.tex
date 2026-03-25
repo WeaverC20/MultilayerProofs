@@ -1,0 +1,87 @@
+\section{Introduction}
+\label{sec:introduction}
+
+The transport of hydrogen through metallic and polymeric barriers is of central
+importance in energy systems, chemical processing, and materials engineering.
+In gas-driven permeation experiments, a membrane of thickness~$L$ separates a
+high-pressure feed chamber from a low-pressure permeate chamber.  Hydrogen
+dissolves into the upstream face of the membrane according to Sieverts' law
+(metals) or Henry's law (polymers), diffuses down the resulting concentration
+gradient, and emerges at the downstream face.  The cumulative quantity of gas
+that has permeated, $\Cum(t)$, is recorded as a function of time.
+
+\subsection{The Timelag Method}
+
+After an initial transient, $\Cum(t)$ approaches a linear asymptote whose slope
+equals the steady-state flux~$\Jss$ and whose $t$-intercept defines the
+\emph{timelag}~$\tlag$.  This elegant technique, introduced by
+\textcite{Daynes1920} and systematised by \textcite{Barrer1951}, provides a
+direct route to the diffusion coefficient.  For a homogeneous membrane with
+constant diffusivity~$D$, the classical result is
+\begin{equation}
+  \label{eq:classical-timelag}
+  \tlag = \frac{L^{2}}{6D},
+\end{equation}
+requiring only the membrane thickness and the measured intercept.
+
+\subsection{Industrial Motivation: Multilayer Barriers}
+
+Many practical barriers are not homogeneous single layers.  Metallic pipelines
+may carry oxide scales or deliberately applied coatings; polymer liners in
+composite pressure vessels can be laminated with barrier films; and cladding
+strategies in nuclear fuel systems create multilayer diffusion paths.  In each
+case, hydrogen must traverse two or more distinct material layers, each
+characterised by its own diffusivity~$\Ds{i}$ and solubility~$\Ss{i}$.
+
+When a timelag measurement is performed on such a composite membrane, the
+resulting $\tlag$ reflects an \emph{effective} combination of the individual
+layer properties.  The fundamental question addressed in this work is:
+
+\begin{quote}
+\itshape
+Given experimental permeation data on a bilayer membrane whose layer
+thicknesses are known but whose individual diffusivities and solubilities are
+\emph{not}, can the individual transport parameters $\Ds{1}$, $\Ds{2}$,
+$\Ss{1}$, $\Ss{2}$ be uniquely extracted?
+\end{quote}
+
+\subsection{Prior Work}
+
+The study of diffusion timelags in heterogeneous media has a rich history.
+\textcite{Frisch1957} provided early theoretical results on timelags for
+membranes with position-dependent diffusivity using variational and moment
+methods.  \textcite{AshBarrerPetropoulos1963} derived timelag expressions for
+laminated slabs, establishing the framework for multilayer analysis.
+\textcite{Petropoulos1973} extended the quantitative analysis to glassy
+polymers.  \textcite{Crank1975} provided comprehensive treatments of diffusion
+in composite media.  Most recently, \textcite{TranMeldonSontag2021} gave a
+thorough treatment of transient diffusion in bilayer composites, including the
+important finding that the \emph{downstream} timelag is independent of the
+direction of permeation when the boundary conditions are ideal (zero
+concentration at the permeate face).
+
+\subsection{Contributions and Outline}
+
+In this paper we provide:
+\begin{enumerate}
+  \item A self-contained, rigorous derivation of the single-layer timelag via
+        Laplace transforms (\cref{sec:single-layer}), establishing the
+        methodology.
+  \item A complete derivation of the bilayer composite timelag from the
+        coupled diffusion equations (\cref{sec:two-layer}), including:
+        \begin{itemize}
+          \item the full Laplace-domain solution for both layers,
+          \item the small-$s$ expansion that yields the timelag,
+          \item a proof that the downstream timelag is direction-independent,
+          \item derivation of the upstream lead time, which \emph{is}
+                direction-dependent.
+        \end{itemize}
+  \item Systematic extraction methods for the individual transport parameters
+        $\Ds{1}$, $\Ds{2}$, $\Ss{1}$, $\Ss{2}$ from experimentally
+        accessible quantities (\cref{sec:extraction}), addressing both the
+        case where solubilities are known and the general case where they are
+        not, with analysis of conditioning and practical protocols.
+\end{enumerate}
+
+Detailed algebraic manipulations are collected in \cref{sec:appendix-laplace}
+to keep the main exposition readable.

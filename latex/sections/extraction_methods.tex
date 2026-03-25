@@ -1,0 +1,583 @@
+\section{Extraction of Individual Diffusion Coefficients}
+\label{sec:extraction}
+
+Having established the composite timelag, steady-state flux, and upstream lead
+time expressions, we now address the inverse problem: given experimental
+measurements on a bilayer membrane, how can the individual transport
+parameters be determined?
+
+\subsection{The Inverse Problem}
+\label{sec:inverse-problem}
+
+For a bilayer membrane, four material parameters are unknown a priori:
+\begin{equation}
+  \label{eq:unknowns}
+  \Ds{1},\quad \Ds{2},\quad \Ss{1},\quad \Ss{2}.
+\end{equation}
+The layer thicknesses $\Ls{1}$ and $\Ls{2}$ are assumed known from fabrication
+records or cross-sectional microscopy.  The applied upstream pressure~$P$ is a
+controlled experimental quantity.
+
+The key structural observation is that the observables separate into two
+groups:
+\begin{enumerate}
+  \item \textbf{Time-domain quantities} ($\tlag$, $\theta_{\mathrm{up}}$)
+        depend on $\Ds{1}$, $\Ds{2}$, and the partition coefficient
+        $\Kpart = \Ss{2}/\Ss{1}$, but \emph{not} on $\Ss{1}$ or $\Ss{2}$
+        individually (\cref{eq:tlag-composite,eq:theta-up-explicit}).
+  \item \textbf{Flux quantities} ($\Jss$) depend on the permeabilities
+        $\Phi_i = \Ds{i}\Ss{i}$ (\cref{eq:Jss-series}), coupling diffusivity
+        and solubility.
+\end{enumerate}
+
+\begin{remark}[Direction independence]
+By \cref{prop:direction-independence}, the downstream timelag $\tlag$ is the
+same in both directions.  The steady-state flux $\Jss$ is likewise
+direction-independent (\cref{eq:Jss-series}).  Consequently, reversing the
+sample orientation yields no new information from $\tlag$ or $\Jss$.
+The upstream lead time $\theta_{\mathrm{up}}$ \emph{is}
+direction-dependent (\cref{prop:upstream-direction}), but still depends only on
+$\Ds{1}$, $\Ds{2}$, $\Kpart$.
+\end{remark}
+
+\paragraph{Counting equations and unknowns.}
+From a single permeation experiment, we can extract at most three independent
+quantities: $\tlag$, $\Jss$, and (if the upstream transient is measured)
+$\theta_{\mathrm{up}}$.  These provide:
+\begin{itemize}
+  \item $\tlag = f(\Ds{1}, \Ds{2}, \Kpart)$ \hfill (1~equation in 3~unknowns)
+  \item $\theta_{\mathrm{up}} = g(\Ds{1}, \Ds{2}, \Kpart)$
+        \hfill (1~equation in same 3~unknowns)
+  \item $\Jss = h(\Phi_1, \Phi_2) = h(\Ds{1}\Ss{1}, \Ds{2}\Ss{2})$
+        \hfill (1~equation in 2~additional unknowns)
+\end{itemize}
+With four unknowns ($\Ds{1}$, $\Ds{2}$, $\Ss{1}$, $\Ss{2}$) and at most three
+equations from one experiment, the system is \emph{under-determined}.
+Additional information is required, and we describe several strategies below.
+
+\subsection{Method~1: Single-Layer Calibration + Bilayer Experiment}
+\label{sec:method1}
+
+The most direct approach is to independently characterise one of the two
+materials in a separate single-layer permeation experiment.
+
+\paragraph{Step~1: Single-layer experiment on material~$i$.}
+A single-layer sample of material~$i$ (thickness~$\Ls{i}^{*}$, where the
+asterisk denotes the calibration sample) yields:
+\begin{align}
+  \label{eq:single-cal-D}
+  \Ds{i} &= \frac{(\Ls{i}^{*})^2}{6\,\tau_i^{*}},\\[4pt]
+  \label{eq:single-cal-Phi}
+  \Phi_i &= \frac{\Jss^{*}\,\Ls{i}^{*}}{\sqrt{P}},
+  \qquad\text{whence}\qquad
+  \Ss{i} = \frac{\Phi_i}{\Ds{i}}.
+\end{align}
+This determines $\Ds{i}$ and $\Ss{i}$ for one material.
+
+\paragraph{Step~2: Bilayer experiment.}
+With $\Ds{i}$ and $\Ss{i}$ known, the bilayer timelag and flux provide two
+equations in the two remaining unknowns $\Ds{j}$ and $\Ss{j}$ ($j \neq i$).
+
+From \cref{eq:Jss-series}:
+\begin{equation}
+  \label{eq:method1-flux}
+  \Phi_j = \Ds{j}\Ss{j}
+  = \frac{\Ls{2}}{\dfrac{\sqrt{P}}{\Jss} - \dfrac{\Ls{1}}{\Phi_1}}.
+\end{equation}
+(Here we assumed $i=1$; the formula for $i=2$ is analogous.)
+
+This determines $\Phi_j$.  To separate $\Ds{j}$ and $\Ss{j}$, we use the
+timelag.  With $\Kpart = \Ss{2}/\Ss{1}$ and $\Phi_j = \Ds{j}\Ss{j}$, the
+composite timelag \cref{eq:tlag-composite} becomes a single equation in
+$\Ds{j}$ (since $\Kpart = \Phi_j/(\Ds{j}\Ss{i}) \cdot (\Ss{i}/\Ss{j})$
+reduces to known quantities once $\Ds{j}$ is fixed).
+
+More explicitly, define $\Kpart = \Ss{j}\Ss{i}^{-1} = \Phi_j/(\Ds{j}\Ss{i})$
+(for $j=2$, $i=1$).  Substituting into \cref{eq:tlag-composite} gives a
+single nonlinear equation in the one unknown $\Ds{j}$, which can be solved
+numerically.  Once $\Ds{j}$ is found, $\Ss{j} = \Phi_j/\Ds{j}$.
+
+\begin{proposition}[Solvability of Method~1]
+\label{prop:method1-solvability}
+Given the single-layer calibration of material~$i$ and the bilayer measurements
+$\tlag$ and $\Jss$, the remaining parameters $\Ds{j}$ and $\Ss{j}$ are
+generically determined uniquely (subject to the physical constraint
+$\Ds{j} > 0$, $\Ss{j} > 0$).
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+The flux equation fixes $\Phi_j > 0$.  With $\Phi_j$ known, $\Kpart =
+\Phi_j/(\Ds{j}\Ss{i})$ is a decreasing function of $\Ds{j}$.  Substituting
+into the timelag formula yields a continuous function $\tlag(\Ds{j})$ on
+$(0,\infty)$.  Since $\tlag \to \infty$ as $\Ds{j} \to 0$ and $\tlag \to
+\Ls{i}^2/(6\Ds{i})$ as $\Ds{j} \to \infty$ (the fast-layer limit), the
+intermediate value theorem guarantees at least one solution.  Monotonicity of
+$\tlag(\Ds{j})$ on the feasible domain (which can be verified by examining the
+derivative) ensures uniqueness.
+\end{proof}
+
+\begin{remark}
+Method~1 requires a separate single-layer sample of one material.  This is
+often available in practice: for hydrogen permeation barriers, the
+\emph{substrate} material (e.g., a steel) is typically well-characterised,
+and only the \emph{coating} or \emph{liner} is novel.
+\end{remark}
+
+\subsection{Method~2: Two Bilayer Samples with Different Thickness Ratios}
+\label{sec:method2}
+
+When single-layer calibration is not feasible (e.g., the individual materials
+cannot be fabricated as free-standing membranes), one can fabricate two bilayer
+samples of the \emph{same material pair} but with different thickness ratios.
+
+\paragraph{Setup.}
+Let sample~$k$ ($k = 1,2$) have thicknesses $\Ls{1}^{(k)}$ and
+$\Ls{2}^{(k)}$, with $\Ls{1}^{(1)}/\Ls{2}^{(1)} \neq
+\Ls{1}^{(2)}/\Ls{2}^{(2)}$.  From each sample, measure $\tlag^{(k)}$ and
+$\Jss^{(k)}$.  This gives four equations:
+\begin{align}
+  \label{eq:method2-tlag}
+  \tlag^{(k)} &= f\!\left(\Ds{1},\Ds{2},\Kpart;\,
+    \Ls{1}^{(k)},\Ls{2}^{(k)}\right),
+    \quad k=1,2,\\[4pt]
+  \label{eq:method2-Jss}
+  \Jss^{(k)} &= \frac{\sqrt{P}}{\dfrac{\Ls{1}^{(k)}}{\Phi_1}
+    + \dfrac{\Ls{2}^{(k)}}{\Phi_2}},
+    \quad k=1,2.
+\end{align}
+
+\paragraph{Reduction.}
+The two flux equations \cref{eq:method2-Jss} are linear in the resistivities
+$1/\Phi_i$:
+\begin{equation}
+  \label{eq:method2-flux-system}
+  \frac{\Ls{1}^{(k)}}{\Phi_1} + \frac{\Ls{2}^{(k)}}{\Phi_2}
+  = \frac{\sqrt{P}}{\Jss^{(k)}}, \quad k=1,2.
+\end{equation}
+Since the coefficient matrix
+$\bigl(\begin{smallmatrix}\Ls{1}^{(1)}&\Ls{2}^{(1)}\\
+\Ls{1}^{(2)}&\Ls{2}^{(2)}\end{smallmatrix}\bigr)$ is nonsingular whenever the
+thickness ratios differ, this $2\times 2$ linear system determines $\Phi_1$ and
+$\Phi_2$ uniquely.
+
+With $\Phi_1$, $\Phi_2$ known, the two timelag equations
+\cref{eq:method2-tlag} become two equations in three unknowns ($\Ds{1}$,
+$\Ds{2}$, $\Kpart$).  However, $\Kpart = \Ss{2}/\Ss{1} =
+(\Phi_2/\Ds{2})/(\Phi_1/\Ds{1}) = \Phi_2\Ds{1}/(\Phi_1\Ds{2})$, reducing the
+system to two equations in two unknowns ($\Ds{1}$, $\Ds{2}$), which is
+generically solvable.  The solubilities then follow:
+$\Ss{i} = \Phi_i/\Ds{i}$.
+
+\begin{proposition}[Solvability of Method~2]
+\label{prop:method2-solvability}
+Two bilayer samples with distinct thickness ratios and known layer thicknesses
+generically determine all four parameters $\Ds{1}$, $\Ds{2}$, $\Ss{1}$,
+$\Ss{2}$ from the measured timelags and steady-state fluxes.
+\end{proposition}
+
+\begin{remark}
+With $N > 2$ samples, the system is over-determined.  A least-squares approach
+\begin{equation}
+  \label{eq:method2-lsq}
+  \min_{\Ds{1},\Ds{2},\Ss{1},\Ss{2}>0}\;\sum_{k=1}^{N}
+  \left[w_\tau\!\left(\tau^{(k)}_{\mathrm{meas}}
+    - \tau^{(k)}_{\mathrm{model}}\right)^{\!2}
+  + w_J\!\left(J^{(k)}_{\mathrm{ss,meas}}
+    - J^{(k)}_{\mathrm{ss,model}}\right)^{\!2}\right]
+\end{equation}
+(with suitable weights $w_\tau$, $w_J$) provides uncertainty estimates and can
+detect systematic discrepancies indicating, e.g., interface resistance or
+concentration-dependent diffusivity.
+\end{remark}
+
+\subsection{Method~3: Full Transient Curve Fitting}
+\label{sec:method3}
+
+The cumulative permeation curve $\Cum(t)$ contains more information than the
+three asymptotic parameters ($\tlag$, $\Jss$, $\theta_{\mathrm{up}}$).  In
+particular, the \emph{shape} of the transient region encodes the eigenvalue
+structure of the composite diffusion problem, which depends on $\Ds{1}$,
+$\Ds{2}$, $\Kpart$, $\Ls{1}$, and $\Ls{2}$.
+
+\paragraph{Normalised transient.}
+Define the normalised cumulative permeation
+\begin{equation}
+  \label{eq:normalised-Q}
+  \hat{\Cum}(t) \coloneqq \frac{\Cum(t)}{\Jss\,t},
+\end{equation}
+which tends to~$1$ at large~$t$ and whose time evolution depends only on
+$\Ds{1}$, $\Ds{2}$, $\Kpart$ (and the known thicknesses), \emph{not} on the
+absolute solubilities.
+
+\paragraph{Four-parameter fit.}
+Fitting the full (unnormalised) $\Cum(t)$ to the analytical model
+(\cref{eq:Qbar-two-layer} inverted numerically, or equivalently a numerical PDE
+solution) determines all four parameters simultaneously:
+\begin{itemize}
+  \item The transient shape pins down $\Ds{1}$, $\Ds{2}$, and $\Kpart$.
+  \item The absolute magnitude of $\Jss$ then determines $\Ss{1}$ (and hence
+        $\Ss{2} = \Kpart\,\Ss{1}$) via \cref{eq:Jss-series}.
+\end{itemize}
+
+\begin{remark}
+This method extracts all four parameters from a \emph{single} experiment but
+requires high-quality time-resolved data throughout the transient.  It is also
+more computationally demanding and may be sensitive to noise, particularly when
+the two layers have similar properties.  Regularisation or Bayesian inference
+approaches can improve robustness.  Numerical validation with FESTIM is
+recommended to verify the extracted parameters.
+\end{remark}
+
+\subsection{Special Case: Known Solubilities}
+\label{sec:known-solubilities}
+
+When the solubility coefficients $\Ss{1}$ and $\Ss{2}$ are known from
+independent measurements (literature values, separate sorption experiments, or
+electrochemical methods), the problem reduces significantly: only $\Ds{1}$ and
+$\Ds{2}$ are unknown, and a single bilayer experiment suffices.
+
+\paragraph{Method~A: Timelag + steady-state flux.}
+From \cref{eq:Jss-series}, with $\Phi_i = \Ds{i}\Ss{i}$:
+\begin{equation}
+  \label{eq:extract-Jss-linear}
+  \frac{\Ls{1}}{\Ds{1}\Ss{1}} + \frac{\Ls{2}}{\Ds{2}\Ss{2}}
+  = \frac{\sqrt{P}}{\Jss}.
+\end{equation}
+This is one linear equation in $1/\Ds{1}$ and $1/\Ds{2}$.  The composite
+timelag \cref{eq:tlag-composite} provides a second (nonlinear) equation.
+
+Define $u_i \coloneqq 1/\Ds{i}$.  From \cref{eq:extract-Jss-linear}:
+\begin{equation}
+  \label{eq:u2-from-u1}
+  u_2 = \frac{\Ss{2}}{\Ls{2}}
+  \left(\frac{\sqrt{P}}{\Jss} - \frac{\Ls{1}}{\Ss{1}}\,u_1\right).
+\end{equation}
+Substituting into \cref{eq:tlag-composite} yields a single equation in $u_1$,
+solvable numerically.
+
+\paragraph{Method~B: Timelag + upstream lead time.}
+If $\theta_{\mathrm{up}}$ is measurable, the pair $(\tlag,
+\theta_{\mathrm{up}})$ provides two equations in $(\Ds{1}, \Ds{2})$ with
+$\Kpart = \Ss{2}/\Ss{1}$ known.  This has the advantage of relying only on
+\emph{time-domain} intercepts, avoiding the need for absolute flux calibration.
+
+\subsection{Dimensionless Diagnostics and Conditioning}
+\label{sec:conditioning}
+
+Rather than examining the six individual parameters ($\Ds{1}$, $\Ds{2}$,
+$\Ss{1}$, $\Ss{2}$, $\Ls{1}$, $\Ls{2}$) separately, the conditioning of the
+extraction is governed by two dimensionless ratios that capture the
+\emph{relative} contributions of the two layers.
+
+\subsubsection{The Governing Dimensionless Groups}
+
+\begin{definition}[Resistance ratio]
+\label{def:kappa}
+The \emph{resistance ratio} is
+\begin{equation}
+  \label{eq:kappa-def}
+  \kres \coloneqq \frac{R_1}{R_2}
+  = \frac{\Ls{1}/\Phi_1}{\Ls{2}/\Phi_2}
+  = \frac{\Ls{1}\,\Ds{2}\,\Ss{2}}{\Ls{2}\,\Ds{1}\,\Ss{1}},
+\end{equation}
+where $R_i = \Ls{i}/\Phi_i = \Ls{i}/(\Ds{i}\Ss{i})$ is the permeation
+resistance of layer~$i$.
+\end{definition}
+
+$\kres$ determines \textbf{which layer controls the steady-state flux}.
+The fractional resistance of Layer~1 is $\eta = \kres/(1+\kres)$.
+When $\kres \gg 1$, Layer~1 dominates (high-resistance barrier);
+when $\kres \ll 1$, Layer~2 dominates.
+
+\begin{definition}[Diffusion speed ratio]
+\label{def:rho}
+The \emph{diffusion speed ratio} is
+\begin{equation}
+  \label{eq:rho-def}
+  \rspd \coloneqq \frac{\Ds{1}\,\Ls{2}}{\Ds{2}\,\Ls{1}}.
+\end{equation}
+\end{definition}
+
+$\rspd$ compares the diffusive transit speeds of the two layers:
+since the single-layer timelag scales as $\Ls{i}^2/(6\Ds{i})$,
+$\rspd \gg 1$ means Layer~1 is ``fast'' (short transit time relative to its
+thickness), while $\rspd \ll 1$ means Layer~1 is the diffusion bottleneck.
+
+\begin{remark}
+The two ratios encode all six parameters.  In particular,
+$\kres = \Kpart/\rspd$ where $\Kpart = \Ss{2}/\Ss{1}$ is the partition
+coefficient.  Thus any pair among $\{\kres, \rspd, \Kpart\}$ suffices
+to characterise the bilayer, together with a single reference scale
+(e.g., $\Ls{1}^2/\Ds{1}$ for time).
+\end{remark}
+
+\subsubsection{Dimensionless Timelag}
+
+The composite timelag from \cref{eq:tlag-composite-raw} takes a transparent
+form when non-dimensionalised as $\hat{\tau} = \tlag\,\Ds{1}/\Ls{1}^2$:
+\begin{equation}
+  \label{eq:tlag-dimensionless}
+  \boxed{
+  \hat{\tau}
+  = \frac{\tfrac{1}{6} + \tfrac{\rspd^2}{2}
+    + \tfrac{1}{\kres}\!\left(\tfrac{\rspd^2}{6}
+    + \tfrac{1}{2}\right)}{1 + \tfrac{1}{\kres}}.}
+\end{equation}
+Each term in the numerator has a direct physical interpretation:
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Term} & \textbf{Physical origin} \\
+\midrule
+$\tfrac{1}{6}$ & Layer~1 self-timelag
+  ($\propto \Ls{1}^2/\Ds{1}$) \\[3pt]
+$\tfrac{\rspd^2}{2}$ & Cross-loading: Layer~2 filled through Layer~1 \\[3pt]
+$\tfrac{1}{\kres}\cdot\tfrac{\rspd^2}{6}$
+  & Layer~2 self-timelag ($\propto \Ls{2}^2/\Ds{2}$) \\[3pt]
+$\tfrac{1}{\kres}\cdot\tfrac{1}{2}$
+  & Cross-loading: Layer~1 filled through Layer~2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+The denominator $1 + 1/\kres$ is the total dimensionless resistance.
+The cross-loading terms are the signature of the bilayer: they couple
+information about \emph{both} layers into the timelag, even when one
+layer dominates the self-timelag contribution.
+
+\subsubsection{Regime Analysis}
+
+Whether the extraction is well- or ill-conditioned depends on whether
+\emph{both} $\tlag$ and $\Jss$ retain sensitivity to \emph{both} layers.
+\Cref{tab:regimes} summarises the key regimes.
+
+\begin{table}[ht]
+\centering
+\caption{Extraction conditioning as a function of the dimensionless ratios
+$\kres$ and $\rspd$.}
+\label{tab:regimes}
+\begin{tabular}{@{}lccccl@{}}
+\toprule
+\textbf{Regime} & $\kres$ & $\rspd$
+  & \textbf{$\tlag$ sees both?}
+  & \textbf{$\Jss$ sees both?}
+  & \textbf{Extraction} \\
+\midrule
+Both layers visible & $\sim$0.1--10 & $\sim$0.1--10
+  & Yes & Yes & Well-conditioned \\[3pt]
+Thin, fast Layer~1 & $\ll 1$ & $\gg 1$
+  & No & No & Poor \\[3pt]
+Thin barrier (Layer~1) & $\gg 1$ & any
+  & Yes (cross-loading) & Yes (dominates) & Well-conditioned \\[3pt]
+Identical materials & $=1$ & $=1$, $\Kpart=1$
+  & Degenerate & Degenerate & Impossible \\[3pt]
+One very slow layer & $\sim 1$ & $\ll 1$ or $\gg 1$
+  & Partially & Yes & Marginal \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Why the thin, fast layer case fails.}
+When $\kres \ll 1$ and $\rspd \gg 1$, Layer~1 is thin and diffuses rapidly.
+Its self-timelag $\propto \Ls{1}^2/\Ds{1}$ is negligible, and its resistance
+$R_1 = \Ls{1}/\Phi_1$ is a small fraction of the total.  Both the timelag
+and the flux are dominated by Layer~2; changing $\Ds{1}$ or $\Ss{1}$ barely
+alters either observable.  Physically, Layer~1 equilibrates almost
+instantaneously and acts as a transparent window.
+
+\paragraph{Why the fast/slow layer case is marginal.}
+When $\rspd \gg 1$ with $\kres \sim 1$ (comparable resistances but very
+different diffusivities), the timelag reduces to
+$\hat{\tau} \approx \rspd^2/2 + (1/\kres)\rspd^2/6$, which depends on
+$\rspd^2 = (\Ds{1}/\Ds{2})^2\cdot(\Ls{2}/\Ls{1})^2$.  The fast layer's
+diffusivity $\Ds{1}$ cancels in the leading term after dividing by $d_0$:
+\begin{equation}
+  \tlag \approx \frac{\Ls{2}^2}{6\Ds{2}}
+  \quad\text{when } \rspd \gg 1,\; \kres \sim 1.
+\end{equation}
+In other words, the timelag is blind to $\Ds{1}$ because
+Layer~1 equilibrates instantaneously regardless of whether $\Ds{1}$ is
+$10\times$ or $1000\times$ larger than $\Ds{2}$.  The flux $\Jss$ still
+depends on $\Phi_1 = \Ds{1}\Ss{1}$ through the series resistance, providing
+partial but not full information.
+
+\subsubsection{The Thin Barrier Coating Case ($\kres \gg 1$)}
+\label{sec:barrier-coating}
+
+A particularly important practical scenario is a thin, low-permeability coating
+(Layer~1) on a thick, more permeable substrate (Layer~2).  Here
+$\Ls{1} \ll \Ls{2}$ but $\Phi_1 \ll \Phi_2$, so $\kres \gg 1$.
+Despite the small thickness, the extraction is \textbf{well-conditioned}:
+
+\paragraph{Flux sensitivity.}
+Since $\kres \gg 1$, the barrier dominates the total resistance:
+\begin{equation}
+  \Jss \approx \frac{\sqrt{P}\,\Phi_1}{\Ls{1}}
+  \qquad (\kres \gg 1).
+\end{equation}
+The flux is almost entirely determined by the coating's permeability $\Phi_1$,
+providing high sensitivity to $\Ds{1}\Ss{1}$.
+
+\paragraph{Timelag sensitivity.}
+The composite timelag in this limit is (restoring dimensions):
+\begin{equation}
+  \label{eq:tlag-barrier-limit}
+  \tlag \approx \frac{\Ls{1}^2}{6\Ds{1}}
+  + \frac{\Kpart\,\Ls{1}\,\Ls{2}}{2\Ds{1}}
+  + \frac{\Kpart\,\Ls{2}^2}{6\Ds{2}},
+  \qquad (\kres \gg 1).
+\end{equation}
+The middle term---the \emph{cross-loading} contribution---is the key: it
+represents the time required to load the thick substrate \emph{through} the
+barrier bottleneck.  Even though $\Ls{1}$ is small, this term scales as
+$\Ls{1}\Ls{2}/\Ds{1}$, and because $\Ls{2}$ is large and $\Ds{1}$ is small
+(barrier property), it can dominate the timelag.
+This ensures that $\Ds{1}$ remains visible in the timelag measurement
+despite the barrier being thin.
+
+\paragraph{Physical picture.}
+In a barrier-coated membrane, hydrogen must pass through the thin but
+impermeable coating to reach the thick substrate.  The substrate acts as a
+large reservoir that must be ``filled'' through the coating bottleneck before
+steady state is reached.  The filling time depends explicitly on $\Ds{1}$
+(the coating diffusivity), keeping it experimentally accessible.
+
+\paragraph{Exception.}
+If $\kres \gg 1$ and $\rspd \gg 1$ \emph{simultaneously}, the layer has
+high resistance \emph{because of very low solubility} ($\Ss{1} \ll \Ss{2}$)
+rather than low diffusivity.  In this unusual case, the barrier diffuses
+quickly but dissolves very little hydrogen; the cross-loading term in
+\cref{eq:tlag-barrier-limit} becomes small because $\Kpart = \Ss{2}/\Ss{1}$
+and $\Ds{1}$ are both large, and their ratio $\Kpart/\Ds{1}$ may not be.
+This is atypical for practical barrier materials, which generally have
+\emph{both} low $\Ds{i}$ and low $\Ss{i}$.
+
+\subsubsection{Practical Diagnostic}
+
+Before attempting extraction, a simple check can assess feasibility:
+
+\begin{enumerate}
+  \item \textbf{Compare timelags.}
+    If a single-layer measurement of the substrate (Layer~2) is available,
+    compute $\tau_2^* = (\Ls{2}^*)^2/(6\Ds{2})$.  If the bilayer timelag
+    $\tlag$ differs significantly from $\tau_2^*\cdot(\Ls{2}/\Ls{2}^*)^2$
+    (adjusting for thickness), then Layer~1 contributes measurably and
+    extraction is feasible.
+  \item \textbf{Estimate $\kres$.}
+    Using literature values or order-of-magnitude estimates for $\Phi_i$,
+    compute $\kres = (\Ls{1}/\Phi_1)/(\Ls{2}/\Phi_2)$.
+    Values in the range $10^{-2} < \kres < 10^2$ (with $\kres$ not too close
+    to~1 if $\Kpart \approx 1$) indicate a well-conditioned regime.
+  \item \textbf{Estimate $\rspd$.}
+    Compute $\rspd = \Ds{1}\Ls{2}/(\Ds{2}\Ls{1})$.
+    The case $\kres \gg 1$ with $\rspd \lesssim 1$ (true barrier: low $D$,
+    low $S$) is the most favourable for extraction.
+\end{enumerate}
+
+\begin{proposition}[Condition for well-posed extraction, refined]
+\label{prop:well-posed}
+The extraction of individual parameters is well-conditioned when either:
+\begin{enumerate}
+  \item Both layers contribute comparably to the total resistance
+        ($\kres \sim 1$) and to the timelag ($\rspd \sim 1$), with the
+        layers being materially distinct ($\Kpart \neq 1$ or $\rspd \neq 1$);
+        or
+  \item One layer dominates the resistance ($\kres \gg 1$ or $\kres \ll 1$)
+        \textbf{and} the cross-loading term in the timelag remains
+        significant---as is the case for thin barrier coatings where both
+        $\Ds{i}$ and $\Ss{i}$ of the barrier are small.
+\end{enumerate}
+The extraction degenerates when both $\tlag$ and $\Jss$ lose sensitivity to
+a layer simultaneously, which occurs for thin, fast, highly permeable layers
+($\kres \ll 1$, $\rspd \gg 1$) or for identical materials
+($\kres = \rspd = 1$, $\Kpart = 1$).
+\end{proposition}
+
+\subsection{Summary of Methods}
+\label{sec:method-summary}
+
+\begin{table}[ht]
+\centering
+\caption{Extraction methods for individual layer transport parameters.}
+\label{tab:methods}
+\begin{tabular}{@{}llcl@{}}
+\toprule
+\textbf{Method} & \textbf{Required data}
+  & \textbf{Unknowns} & \textbf{Notes} \\
+\midrule
+1. Single-layer cal.\ + bilayer
+  & $(\tau_i^*, J_i^*)$ + $(\tlag, \Jss)$
+  & 4 & Most robust \\
+2. Two bilayer samples
+  & $(\tlag^{(k)}, \Jss^{(k)})$, $k=1,2$
+  & 4 & No single-layer needed \\
+3. Full transient fit
+  & $\Cum(t)$ (full curve)
+  & 4 & Single experiment \\
+A. Known $\Ss{i}$: $\tlag + \Jss$
+  & $\tlag$, $\Jss$
+  & 2 & Simplest \\
+B. Known $\Ss{i}$: $\tlag + \theta_{\mathrm{up}}$
+  & $\tlag$, $\theta_{\mathrm{up}}$
+  & 2 & No flux cal.\ needed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Practical Protocol}
+\label{sec:protocol}
+
+Based on the preceding analysis, we recommend the following experimental
+procedure for extracting individual transport parameters from a bilayer
+membrane when solubilities are \emph{not} known a priori.
+
+\begin{enumerate}
+  \item \textbf{Sample preparation.}  Fabricate (or obtain):
+        \begin{itemize}
+          \item A bilayer membrane with known $\Ls{1}$, $\Ls{2}$ (verified by
+                cross-sectional microscopy if possible).
+          \item \emph{Either} a single-layer sample of one constituent material
+                (Method~1) \emph{or} a second bilayer sample with a different
+                thickness ratio (Method~2).
+        \end{itemize}
+
+  \item \textbf{Single-layer calibration} (if using Method~1).
+        Conduct a gas-driven permeation experiment on the single-layer sample:
+        \begin{itemize}
+          \item Extract $\tau_i^*$ and $\Jss^*$ from the $\Cum(t)$ asymptote.
+          \item Compute $\Ds{i}$ and $\Ss{i}$ via \cref{eq:single-cal-D,eq:single-cal-Phi}.
+        \end{itemize}
+
+  \item \textbf{Bilayer permeation experiment(s).}
+        \begin{itemize}
+          \item Apply a known upstream hydrogen pressure~$P$.
+          \item Record $\Cum(t)$ until well into steady state.
+          \item Extract $\tlag$ (intercept) and $\Jss$ (slope) from the linear
+                asymptote.
+          \item Optionally, record the upstream pressure decay for
+                $\theta_{\mathrm{up}}$ measurement.
+        \end{itemize}
+
+  \item \textbf{Parameter extraction.}
+        \begin{itemize}
+          \item \textbf{Method~1:} Use the known $\Ds{i}$, $\Ss{i}$ together
+                with bilayer $\tlag$ and $\Jss$ to solve for $\Ds{j}$, $\Ss{j}$
+                (\cref{sec:method1}).
+          \item \textbf{Method~2:} Use both bilayer datasets to first determine
+                $\Phi_1$, $\Phi_2$ from the flux system, then $\Ds{1}$, $\Ds{2}$
+                from the two timelags (\cref{sec:method2}).
+          \item \textbf{Method~3:} Fit the full transient $\Cum(t)$ to the
+                analytical model (\cref{sec:method3}).
+        \end{itemize}
+
+  \item \textbf{Validation.}  Using the extracted parameters:
+        \begin{itemize}
+          \item Reconstruct the full transient $\Cum(t)$ curve using a FESTIM
+                simulation or numerical inversion of the Laplace-domain
+                solution.
+          \item Compare the reconstructed curve with the measured data.
+          \item Good agreement validates both the extracted parameters and the
+                bilayer diffusion model; systematic discrepancies may indicate
+                interface resistance, concentration-dependent diffusivity, or
+                trapping effects.
+        \end{itemize}
+\end{enumerate}

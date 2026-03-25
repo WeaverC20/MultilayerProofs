@@ -1,2 +1,7 @@
 ordered-set==4.1.0
 PyLaTeX==1.4.2
+numpy
+scipy
+sympy
+matplotlib
+festim

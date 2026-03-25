@@ -1,0 +1,100 @@
+\section{Conclusions and Future Work}
+\label{sec:conclusions}
+
+\subsection{Summary of Results}
+
+We have presented a self-contained derivation of the gas-driven permeation
+timelag for a bilayer composite membrane using Laplace-transform methods.
+The principal results are:
+
+\begin{enumerate}
+  \item \textbf{Composite timelag formula.}
+    The downstream timelag for a bilayer membrane with layer thicknesses
+    $\Ls{1}$, $\Ls{2}$, diffusivities $\Ds{1}$, $\Ds{2}$, and solubilities
+    $\Ss{1}$, $\Ss{2}$ is given by \cref{eq:tlag-composite}.  This reduces to
+    the classical $L^2/(6D)$ result for a homogeneous membrane and agrees with
+    the dimensionless form of \textcite{TranMeldonSontag2021}.
+
+  \item \textbf{Direction independence of the downstream timelag.}
+    The downstream timelag is independent of the direction of permeation
+    (\cref{prop:direction-independence}).  This has the important practical
+    consequence that measuring the downstream timelag in both the forward and
+    reverse directions does not yield two independent equations for
+    parameter extraction.
+
+  \item \textbf{Direction dependence of the upstream lead time.}
+    In contrast to the downstream timelag, the upstream lead time
+    $\theta_{\mathrm{up}}$ is direction-dependent
+    (\cref{prop:upstream-direction}), providing additional independent
+    information.
+
+  \item \textbf{Direction independence of the steady-state flux.}
+    Like the timelag, the steady-state flux through a bilayer is independent
+    of the permeation direction, depending only on the layer permeabilities
+    $\Phi_i = \Ds{i}\Ss{i}$ and $\sqrt{P}$.
+
+  \item \textbf{Extraction methods.}
+    We showed that a single permeation experiment on a bilayer yields at most
+    three independent quantities ($\tlag$, $\Jss$, $\theta_{\mathrm{up}}$),
+    which are insufficient to determine all four unknowns ($\Ds{1}$, $\Ds{2}$,
+    $\Ss{1}$, $\Ss{2}$) without additional information.  Three strategies are
+    proposed (\cref{sec:extraction}):
+    \begin{itemize}
+      \item \emph{Method~1}: Single-layer calibration of one constituent
+            material, combined with a bilayer experiment.
+      \item \emph{Method~2}: Two bilayer samples with different thickness
+            ratios, requiring no single-layer data.
+      \item \emph{Method~3}: Full transient curve fitting to extract all
+            parameters from a single experiment.
+    \end{itemize}
+    When solubilities are known a priori, the problem reduces to two unknowns
+    and a single experiment suffices.
+    The extraction is well-conditioned when both layers contribute comparably
+    to the total permeation resistance (\cref{prop:well-posed}).
+\end{enumerate}
+
+\subsection{Limitations}
+
+The analysis presented here rests on several assumptions:
+\begin{itemize}
+  \item Fickian diffusion with constant, concentration-independent diffusivities
+        in each layer.
+  \item Ideal boundary conditions: instantaneous equilibration at the external
+        surfaces (no surface resistance).
+  \item Ideal interface: thermodynamic equilibrium and flux continuity at the
+        layer interface (no interfacial resistance).
+  \item Known layer thicknesses $\Ls{1}$, $\Ls{2}$ (solubilities need not be
+        known a priori, but additional measurements are then required).
+\end{itemize}
+Departures from these assumptions---such as concentration-dependent
+diffusivity, surface kinetic barriers, interfacial resistance, or hydrogen
+trapping---will modify the timelag expressions and may require extended
+models.
+
+\subsection{Future Directions}
+
+Several extensions of the present work are of practical interest:
+\begin{enumerate}
+  \item \textbf{Three or more layers.}
+    The Laplace-transform approach generalises naturally to $N$-layer
+    composites via transfer-matrix methods, yielding timelag expressions
+    as functions of $2N$ material parameters ($\Ds{i}$, $\Ss{i}$).
+  \item \textbf{Cylindrical and spherical geometries.}
+    Pipeline and pressure vessel applications involve cylindrical membranes,
+    where the curvature modifies the steady-state concentration profile and
+    the timelag expression.
+  \item \textbf{Concentration-dependent diffusivity.}
+    In many polymers and some metals, $D$ depends on concentration.  The
+    timelag then depends on the upstream concentration $C_0$, and
+    multiple experiments at different pressures can provide additional
+    constraints.
+  \item \textbf{Trapping effects.}
+    In metals, hydrogen trapping at microstructural defects increases the
+    effective timelag.  Incorporating McNabb--Foster or Oriani trapping models
+    into the bilayer framework is an important extension.
+  \item \textbf{Numerical validation.}
+    The analytical results should be validated against finite-element
+    simulations (e.g., using FESTIM or COMSOL) with realistic material
+    parameters, providing confidence in both the derivations and the
+    extraction algorithms under practical noise levels.
+\end{enumerate}
