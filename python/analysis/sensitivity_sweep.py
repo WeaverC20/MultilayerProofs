@@ -18,7 +18,7 @@ from scipy.optimize import minimize_scalar
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm
+from matplotlib.colors import LogNorm, LinearSegmentedColormap
 
 import festim as F
 
@@ -321,7 +321,17 @@ def main():
          "Phi1_error_2D", "RdYlGn_r"),
     ]
 
-    for data, label, fname, cmap in plot_specs:
+    # Unified color scale: mostly green below 10%, yellow/red above
+    fixed_vmin, fixed_vmax = 0.01, 100
+    error_cmap = LinearSegmentedColormap.from_list("error_green", [
+        (0.0,  "#006400"),   # dark green  — 0.01%
+        (0.50, "#2ca02c"),   # green       — 1%
+        (0.75, "#a8d08d"),   # light green — 10%
+        (0.85, "#ffdd44"),   # yellow      — ~30%
+        (1.0,  "#d62728"),   # red         — 100%
+    ])
+
+    for data, label, fname, _cmap in plot_specs:
         fig, ax = plt.subplots(figsize=(9, 7))
 
         valid = np.isfinite(data) & (data > 0)
@@ -330,12 +340,9 @@ def main():
             plt.close()
             continue
 
-        vmin = max(data[valid].min(), 0.01)
-        vmax = min(data[valid].max(), 1000)
-
-        pcm = ax.pcolormesh(KK, RR, np.clip(data, vmin, vmax),
-                             norm=LogNorm(vmin=vmin, vmax=vmax),
-                             cmap=cmap, shading="nearest")
+        pcm = ax.pcolormesh(KK, RR, np.clip(data, fixed_vmin, fixed_vmax),
+                             norm=LogNorm(vmin=fixed_vmin, vmax=fixed_vmax),
+                             cmap=error_cmap, shading="nearest")
         fig.colorbar(pcm, ax=ax, label=label)
 
         # 10% contour
